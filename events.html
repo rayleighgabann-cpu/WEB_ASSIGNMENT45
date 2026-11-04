@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nesibe Ethnic Cafe - Events</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Nesibe Cafe</a>
+    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link active" href="events.html">Events</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero-section">
+  <div class="container">
+    <h1>Events</h1>
+    <p class="lead">Cultural Events, Workshops & Special Offers</p>
+  </div>
+</header>
+
+<main class="container overlap-container mb-5">
+  
+  <div class="bg-brand-light p-4 mb-5 text-center">
+    <h2 class="h3 text-brand">Upcoming Events</h2>
+    <p class="lead">Food brings people together. Join our cultural events and workshops!</p>
+    <p class="text-muted small">Booking required. Spaces are limited.</p>
+  </div>
+
+  <h2 class="mb-4 text-brand">Event Calendar</h2>
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="premium-card">
+        <div class="event-date-header">15 June 2024</div>
+        <div class="card-body">
+          <h4 class="h5 text-brand">Besbarmak Workshop</h4>
+          <p class="small text-muted mb-3">Learn the national dish from scratch with our head chef.</p>
+          <p class="mb-1 text-dark"><strong>Time:</strong> 14:00 - 17:00</p>
+          <p class="mb-3 text-dark"><strong>Price:</strong> 15,000 ₸</p>
+          <div class="mt-auto pt-3">
+            <div class="badge bg-warning text-dark w-100 py-2 mb-3 rounded-pill fw-bold">4 spots left</div>
+            <a href="#eventBookingForm" class="btn btn-outline-brand text-center d-block text-decoration-none">BOOK NOW</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="premium-card">
+        <div class="event-date-header">22 June 2024</div>
+        <div class="card-body">
+          <h4 class="h5 text-brand">Nauryz Celebration</h4>
+          <p class="small text-muted mb-3">Multi-course dinner with traditional dishes and live music.</p>
+          <p class="mb-1 text-dark"><strong>Time:</strong> 18:00 - 22:00</p>
+          <p class="mb-3 text-dark"><strong>Price:</strong> 25,000 ₸</p>
+          <div class="mt-auto pt-3">
+            <div class="badge bg-warning text-dark w-100 py-2 mb-3 rounded-pill fw-bold">8 spots left</div>
+            <a href="#eventBookingForm" class="btn btn-outline-brand text-center d-block text-decoration-none">BOOK NOW</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="premium-card">
+        <div class="event-date-header">29 June 2024</div>
+        <div class="card-body">
+          <h4 class="h5 text-brand">Tea Ceremony</h4>
+          <p class="small text-muted mb-3">Discover the art of Kazakh tea with tasting of 5 varieties.</p>
+          <p class="mb-1 text-dark"><strong>Time:</strong> 15:00 - 17:00</p>
+          <p class="mb-3 text-dark"><strong>Price:</strong> 8,000 ₸</p>
+          <div class="mt-auto pt-3">
+            <div class="badge bg-warning text-dark w-100 py-2 mb-3 rounded-pill fw-bold">6 spots left</div>
+            <a href="#eventBookingForm" class="btn btn-outline-brand text-center d-block text-decoration-none">BOOK NOW</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ОБНОВЛЕННЫЙ БЛОК: Форма бронирования ивентов -->
+  <div class="bg-brand-light p-4 p-md-5 rounded-4 shadow-sm border border-warning border-opacity-25 mt-4">
+    <h3 class="mb-4 text-brand text-center">Забронировать Ивент</h3>
+    <form id="eventBookingForm">
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <label class="form-label text-muted small fw-bold">Имя и Фамилия</label>
+          <input type="text" class="form-control rounded-pill px-4" placeholder="Например, Иван Иванов" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label text-muted small fw-bold">Телефон</label>
+          <input type="tel" class="form-control rounded-pill px-4" placeholder="+7 (___) ___-__-__" required>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label text-muted small fw-bold">Какое мероприятие вас интересует?</label>
+          <select class="form-select rounded-pill px-4">
+            <option>Кулинарный мастер-класс</option>
+            <option>Вечер живой национальной музыки</option>
+            <option>Дегустация степного чая</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label text-muted small fw-bold">Дата ивента</label>
+          <input type="date" class="form-control rounded-pill px-4" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label text-muted small fw-bold">Количество гостей</label>
+          <input type="number" class="form-control rounded-pill px-4" min="1" value="1">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-brand btn-lg w-100 rounded-pill shadow-sm">Подтвердить участие</button>
+    </form>
+  </div>
+
+  <!-- jQuery & Custom Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/main.js" defer></script>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="row g-4 text-center text-md-start">
+      <div class="col-md-4">
+        <h4 class="font-playfair">Nesibe Cafe</h4>
+        <p>Uly dala 41<br>Astana, 010238, Kazakhstan</p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="font-playfair">Hours</h4>
+        <p>Mon - Thu: 10:00 - 23:00<br>Fri - Sat: 10:00 - 00:00<br>Sun: 11:00 - 22:00</p>
+      </div>
+      <div class="col-md-4">
+        <h4 class="font-playfair">Contact</h4>
+        <p><a href="tel:+77271234567">+7 (727) 123-45-67</a><br><a href="mailto:info@nesibe-cafe.kz">info@nesibe-cafe.kz</a></p>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="text-center small">
+      &copy; 2024 Nesibe Ethnic Cafe. Premium Design Edition.
+    </div>
+  </div>
+</footer>
+</body>
+</html>
