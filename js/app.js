@@ -1,10 +1,10 @@
 // ============================================================
-// Plain JavaScript (БЕЗ jQuery): index.html, events.html, contact.html (форма "Book a Table")
+// Plain JavaScript (WITHOUT jQuery): index.html, events.html, contact.html ("Book a Table" form)
 // ============================================================
 
-// ---------- ДАННЫЕ ПРОЕКТА (массивы и объекты) ----------
+// ---------- PROJECT DATA (arrays & objects) ----------
 
-// Часы работы. Индекс = день недели из Date.getDay() (0 = воскресенье). close: 24 = полночь.
+// Opening hours. Index = day of week from Date.getDay() (0 = Sunday). close: 24 = midnight.
 const OPENING_HOURS = [
     { day: 'Sunday',    open: 11, close: 22 },
     { day: 'Monday',    open: 10, close: 23 },
@@ -15,7 +15,7 @@ const OPENING_HOURS = [
     { day: 'Saturday',  open: 11, close: 24 }
 ];
 
-// Блюда для "Dish of the Day": по одному на день недели (цены из menu.html)
+// Dishes for "Dish of the Day": one per day of week (prices from menu.html)
 const DISHES = [
     { name: 'Margherita',        desc: 'Tomato sauce, mozzarella, fresh basil',            price: 2750, img: 'images/pizza.jpg' },
     { name: 'Pepperoni',         desc: 'Tomato sauce, mozzarella, spicy pepperoni',        price: 3150, img: 'images/pizza.jpg' },
@@ -26,7 +26,7 @@ const DISHES = [
     { name: 'Kazakh Tea',        desc: 'Traditional tea served in a pot',                  price: 2300, img: 'images/tea-ceremony.jpg' }
 ];
 
-// Мероприятия. ВАЖНО: порядок = порядок <option> в select #ev-event на events.html.
+// Events. Note: order matches order of <option> in select #ev-event on events.html.
 const EVENTS = [
     { id: 1, title: 'Besbarmak Workshop', date: '2024-06-15', time: '14:00 - 17:00', price: 15000, spots: 4,
         desc: 'Learn the national dish from scratch with our head chef.' },
@@ -36,15 +36,15 @@ const EVENTS = [
         desc: 'Discover the art of Kazakh tea with tasting of 5 varieties.' }
 ];
 
-// Шаблоны проверки форматов
+// Format validation patterns
 const PATTERNS = {
     email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
     phone: /^\+?[0-9\s\-()]+$/
 };
 
-// ---------- ФУНКЦИИ (с параметрами и возвращаемым значением) ----------
+// ---------- FUNCTIONS (with parameters and return values) ----------
 
-// 2750 -> "2,750 ₸" (тот же формат, что в разметке сайта)
+// 2750 -> "2,750 ₸" (matching site format)
 function formatPrice(amount) {
     return amount.toLocaleString('en-US') + ' ₸';
 }
@@ -61,7 +61,7 @@ function formatTime(hour) {
     return String(hour % 24).padStart(2, '0') + ':00';
 }
 
-// Часы работы для конкретной даты (Date)
+// Opening hours for a specific date (Date)
 function getWorkingHours(date) {
     return OPENING_HOURS[date.getDay()];
 }
@@ -71,7 +71,7 @@ function describeHours(hours) {
     return formatTime(hours.open) + ' – ' + formatTime(hours.close);
 }
 
-// Проверка формата: type = 'email' или 'phone'
+// Format check: type = 'email' or 'phone'
 function isValidFormat(value, type) {
     if (type === 'phone') {
         const digits = value.replace(/\D/g, '');
@@ -80,7 +80,7 @@ function isValidFormat(value, type) {
     return PATTERNS[type].test(value);
 }
 
-// Ошибка рядом с полем (используются существующие классы Bootstrap)
+// Field error display (uses existing Bootstrap classes)
 function showFieldError(field, message) {
     field.classList.add('is-invalid');
     const msg = document.createElement('div');
@@ -97,8 +97,8 @@ function clearFieldError(field) {
     }
 }
 
-// Проверка всей формы по правилам rules = [{ id, check(value) -> текст ошибки или '' }].
-// Возвращает true, только если все поля прошли проверку.
+// Form validation against rules = [{ id, check(value) -> error text or '' }].
+// Returns true only if all fields pass validation.
 function validateForm(rules) {
     let firstInvalid = null;
     rules.forEach(function (rule) {
@@ -117,7 +117,7 @@ function validateForm(rules) {
     return firstInvalid === null;
 }
 
-// Ошибка исчезает, как только посетитель исправил поле
+// Clear error as soon as user edits the field
 function enableLiveFix(form, rules) {
     form.addEventListener('input', function (e) {
         const rule = rules.find(function (r) { return r.id === e.target.id; });
@@ -128,7 +128,7 @@ function enableLiveFix(form, rules) {
     });
 }
 
-// Сообщение об успехе внутри формы (создаётся кодом)
+// In-form confirmation alert (created by code)
 function showConfirmation(form, message) {
     clearConfirmation(form);
     const box = document.createElement('div');
@@ -143,7 +143,7 @@ function clearConfirmation(form) {
     if (old) old.remove();
 }
 
-// Кнопка Reset убирает ошибки и подтверждение
+// Reset button clears errors and confirmation
 function enableResetCleanup(form) {
     form.addEventListener('reset', function () {
         form.querySelectorAll('.is-invalid').forEach(clearFieldError);
@@ -152,7 +152,7 @@ function enableResetCleanup(form) {
 }
 
 // ============================================================
-// INDEX: Dish of the Day + статус "открыто / закрыто"
+// INDEX: Dish of the Day + "open / closed" status
 // ============================================================
 
 function renderDishOfDay() {
@@ -202,11 +202,11 @@ function updateStatus() {
 function initHome() {
     renderDishOfDay();
     updateStatus();
-    setInterval(updateStatus, 60000); // статус обновляется сам
+    setInterval(updateStatus, 60000); // auto-update status
 }
 
 // ============================================================
-// EVENTS: карточки из массива, бронирование, места, итоговая сумма
+// EVENTS: cards from array, booking, spots, total amount
 // ============================================================
 
 function buildEventCard(ev) {
@@ -248,11 +248,11 @@ function initEvents() {
     const list = document.getElementById('events-list');
     const select = document.getElementById('ev-event');
     const dateField = document.getElementById('ev-date');
-    form.noValidate = true; // ошибки показывает наш код, а не всплывашки браузера
+    form.noValidate = true; // validation handled in code
 
     renderEvents();
 
-    // Выбор мероприятия: подставляем его дату в форму
+    // Event selection: sync date to form
     function selectEvent(id) {
         const index = EVENTS.findIndex(function (ev) { return ev.id === id; });
         select.selectedIndex = index;
@@ -261,12 +261,12 @@ function initEvents() {
         clearFieldError(dateField);
     }
 
-    // ДЕЛЕГИРОВАНИЕ: один обработчик на родителе ловит и карточки, созданные позже (после перерисовки)
+    // DELEGATION: parent handler catches cards re-rendered later
     list.addEventListener('click', function (e) {
-        const btn = e.target.closest('.book-btn'); // что именно нажали
+        const btn = e.target.closest('.book-btn'); // target clicked
         if (!btn) return;
         selectEvent(Number(btn.dataset.eventId));
-        // preventDefault не нужен: ссылка сама прокрутит страницу к форме
+        // preventDefault not needed: hash link scrolls to form
     });
 
     select.addEventListener('change', function () {
@@ -277,22 +277,22 @@ function initEvents() {
 
     const rules = [
         { id: 'ev-name', check: function (v) {
-                return v.split(/\s+/).length < 2 ? 'Введите имя и фамилию (два слова).' : '';
+                return v.split(/\s+/).length < 2 ? 'Please enter your full name (first and last name).' : '';
             } },
         { id: 'ev-phone', check: function (v) {
-                return isValidFormat(v, 'phone') ? '' : 'Введите телефон, например +7 701 123 45 67.';
+                return isValidFormat(v, 'phone') ? '' : 'Enter a valid phone, e.g. +7 701 123 45 67.';
             } },
         { id: 'ev-event', check: function () {
-                return currentEvent().spots === 0 ? 'На это мероприятие мест больше нет.' : '';
+                return currentEvent().spots === 0 ? 'This event is sold out.' : '';
             } },
         { id: 'ev-date', check: function (v) {
-                if (v === '') return 'Выберите дату мероприятия.';
-                return v !== currentEvent().date ? 'Это мероприятие проходит ' + formatDate(currentEvent().date) + '.' : '';
+                if (v === '') return 'Please choose an event date.';
+                return v !== currentEvent().date ? 'This event takes place on ' + formatDate(currentEvent().date) + '.' : '';
             } },
         { id: 'ev-guests', check: function (v) {
                 const n = Number(v);
-                if (!Number.isInteger(n) || n < 1) return 'Укажите количество гостей (целое число от 1).';
-                return n > currentEvent().spots ? 'Свободно мест: ' + currentEvent().spots + '.' : '';
+                if (!Number.isInteger(n) || n < 1) return 'Please specify number of guests (whole number from 1).';
+                return n > currentEvent().spots ? 'Spots available: ' + currentEvent().spots + '.' : '';
             } }
     ];
 
@@ -305,20 +305,20 @@ function initEvents() {
 
         const ev = currentEvent();
         const guests = Number(document.getElementById('ev-guests').value);
-        const total = ev.price * guests; // вычисляемое значение
+        const total = ev.price * guests; // calculated value
         const name = document.getElementById('ev-name').value;
-        const message = name + ', вы записаны на «' + ev.title + '» (' + formatDate(ev.date) + ', ' +
-            ev.time + '). Гостей: ' + guests + '. Итого к оплате: ' + formatPrice(total) + '.';
+        const message = name + ', you are booked for "' + ev.title + '" (' + formatDate(ev.date) + ', ' +
+            ev.time + '). Guests: ' + guests + '. Total to pay: ' + formatPrice(total) + '.';
 
         ev.spots -= guests;
         form.reset();
-        renderEvents(); // карточки перерисованы — делегированный обработчик продолжает работать
+        renderEvents(); // re-rendered cards — delegated handler continues to work
         showConfirmation(form, message);
     });
 }
 
 // ============================================================
-// CONTACT: форма "Book a Table"
+// CONTACT: "Book a Table" form
 // ============================================================
 
 function initBooking() {
@@ -371,7 +371,7 @@ function initBooking() {
     });
 }
 
-// ---------- ЗАПУСК ----------
+// ---------- START ----------
 function initPage() {
     if (document.getElementById('dish-of-day')) initHome();
     if (document.getElementById('events-list')) initEvents();

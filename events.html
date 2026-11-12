@@ -46,38 +46,38 @@
   <div class="row g-4 mb-5" id="events-list"></div>
 
   <div class="bg-brand-light p-4 p-md-5 rounded-4 shadow-sm border border-warning border-opacity-25 mt-4">
-    <h3 class="mb-4 text-brand text-center">Забронировать Ивент</h3>
+    <h3 class="mb-4 text-brand text-center">Book an Event</h3>
     <form id="eventBookingForm">
       <div class="row g-4 mb-4">
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Имя и Фамилия</label>
-          <input type="text" id="ev-name" class="form-control rounded-pill px-4" placeholder="Например, Иван Иванов" required>
+          <label class="form-label text-muted small fw-bold">Full Name</label>
+          <input type="text" id="ev-name" class="form-control rounded-pill px-4" placeholder="e.g. Aigerim Tleubergenova" required>
         </div>
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Телефон</label>
+          <label class="form-label text-muted small fw-bold">Phone</label>
           <input type="tel" id="ev-phone" class="form-control rounded-pill px-4" placeholder="+7 (___) ___-__-__" required>
         </div>
 
         <div class="col-12">
-          <label class="form-label text-muted small fw-bold">Какое мероприятие вас интересует?</label>
+          <label class="form-label text-muted small fw-bold">Which event are you interested in?</label>
           <select id="ev-event" class="form-select rounded-pill px-4">
-            <option>Кулинарный мастер-класс</option>
-            <option>Вечер живой национальной музыки</option>
-            <option>Дегустация степного чая</option>
+            <option>Besbarmak Workshop</option>
+            <option>Nauryz Celebration</option>
+            <option>Tea Ceremony</option>
           </select>
         </div>
 
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Дата ивента</label>
+          <label class="form-label text-muted small fw-bold">Event Date</label>
           <input type="date" id="ev-date" class="form-control rounded-pill px-4" required>
         </div>
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Количество гостей</label>
+          <label class="form-label text-muted small fw-bold">Number of Guests</label>
           <input type="number" id="ev-guests" class="form-control rounded-pill px-4" min="1" value="1">
         </div>
       </div>
 
-      <button type="submit" class="btn btn-brand btn-lg w-100 rounded-pill shadow-sm">Подтвердить участие</button>
+      <button type="submit" class="btn btn-brand btn-lg w-100 rounded-pill shadow-sm">Confirm Booking</button>
     </form>
   </div>
 
@@ -107,5 +107,6 @@
     </div>
   </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

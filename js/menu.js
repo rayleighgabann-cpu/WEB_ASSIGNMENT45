@@ -1,20 +1,20 @@
-// jQuery 3.7.1 — страница Menu: фильтр, поиск, корзина, промокод, оформление заказа.
+// jQuery 3.7.1 — Menu page: filter, search, cart, promo code, checkout.
 $(function () {
 
-    // ---------- ДАННЫЕ ----------
+    // ---------- DATA ----------
     const dynamicDishes = [
         { name: "Kazakh Besbarmak", price: "4,500 ₸", category: "meat", desc: "Traditional boiled meat with handmade noodles." },
         { name: "Baursak (10pcs)", price: "900 ₸", category: "bread", desc: "Golden fried dough pillows." },
         { name: "Shubat (0.5L)", price: "1,200 ₸", category: "drink", desc: "Fermented camel milk." }
     ];
-    const PROMOS = { NESIBE10: 10, SALE10: 10 }; // код -> скидка в %
+    const PROMOS = { NESIBE10: 10, SALE10: 10 }; // code -> discount %
     const PHONE_RE = /^\+?[0-9\s\-()]+$/;
 
     let cart = {};
     let discountPct = 0;
     const filter = { cat: 'all', query: '' };
 
-    // ---------- ВСПОМОГАТЕЛЬНЫЕ ----------
+    // ---------- HELPERS ----------
     function setVisible($el, show) {
         $el.stop(true, true)[show ? 'fadeIn' : 'fadeOut'](200);
     }
@@ -33,7 +33,7 @@ $(function () {
         $field.removeClass('is-invalid').next('.error-msg').remove();
     }
 
-    // ---------- 1. ДИНАМИЧЕСКИЕ БЛЮДА ----------
+    // ---------- 1. DYNAMIC DISHES ----------
     if ($('#menu-items').length) {
         $.each(dynamicDishes, function (index, dish) {
             const itemHTML = `
@@ -53,7 +53,7 @@ $(function () {
         });
     }
 
-    // ---------- 2. ФИЛЬТР КАТЕГОРИЙ + ПОИСК (работают вместе) ----------
+    // ---------- 2. CATEGORY FILTER + SEARCH (work together) ----------
     function applyFilter() {
         const total = $('.premium-card').length;
         let matched = 0;
@@ -69,7 +69,7 @@ $(function () {
             setVisible($card.closest('[class*="col-"]'), isMatch);
         });
 
-        // секции и заголовки показываем, только если в них есть подходящие блюда
+        // sections and headings are shown only if they contain matching dishes
         $('.col-lg-8 > .row').each(function () {
             const $row = $(this);
             const hasMatch = $row.find('.premium-card').filter(function () {
@@ -80,8 +80,8 @@ $(function () {
         });
 
         $('#menu-count').text(matched === 0
-            ? 'По вашему запросу ничего не найдено'
-            : `Показано блюд: ${matched} из ${total}`);
+            ? 'No dishes found matching your search'
+            : `Showing ${matched} of ${total} dishes`);
     }
 
     $('.category-btn').on('click', function (e) {
@@ -97,11 +97,11 @@ $(function () {
         applyFilter();
     });
 
-    // ---------- 3. КОРЗИНА ----------
+    // ---------- 3. CART ----------
     function showPromoNote(discount) {
         if (discountPct === 0) return;
-        let text = `Скидка ${discountPct}% применена!`;
-        if (discount > 0) text += ` Экономия: ${discount.toLocaleString('ru-RU')} ₸`;
+        let text = `Discount of ${discountPct}% applied!`;
+        if (discount > 0) text += ` Savings: ${discount.toLocaleString('en-US')} ₸`;
         $('#promo-result').empty().append($('<span class="text-success fw-bold"></span>').text(text));
     }
 
@@ -130,7 +130,7 @@ $(function () {
                 <div class="cart-entry d-flex justify-content-between align-items-center mb-3 border-bottom pb-2" data-name="${item.name}">
                     <div>
                         <h6 class="mb-0 text-brand small fw-bold">${item.name}</h6>
-                        <small class="text-muted">${item.price.toLocaleString('ru-RU')} ₸ × ${item.qty} = ${itemTotal.toLocaleString('ru-RU')} ₸</small>
+                        <small class="text-muted">${item.price.toLocaleString('en-US')} ₸ × ${item.qty} = ${itemTotal.toLocaleString('en-US')} ₸</small>
                     </div>
                     <div class="d-flex align-items-center gap-1">
                         <button class="btn btn-sm btn-outline-secondary decrease-qty px-2 py-0 fw-bold">-</button>
@@ -144,11 +144,11 @@ $(function () {
         });
 
         const discount = Math.round(subtotal * discountPct / 100);
-        $('#cart-total').text((subtotal - discount).toLocaleString('ru-RU') + ' ₸');
+        $('#cart-total').text((subtotal - discount).toLocaleString('en-US') + ' ₸');
         showPromoNote(discount);
     }
 
-    // Добавление в корзину (делегирование — работает и для блюд, созданных кодом)
+    // Add to cart (delegation — also works for dynamically created dishes)
     $('main').on('click', '.add-to-cart', function (e) {
         e.preventDefault();
 
@@ -167,7 +167,7 @@ $(function () {
 
         const $btn = $(this);
         const originalText = $btn.text();
-        $btn.text('✓ Добавлено').addClass('btn-brand').removeClass('btn-outline-brand').prop('disabled', true);
+        $btn.text('✓ Added').addClass('btn-brand').removeClass('btn-outline-brand').prop('disabled', true);
         setTimeout(function () {
             $btn.text(originalText).removeClass('btn-brand').addClass('btn-outline-brand').prop('disabled', false);
         }, 1000);
@@ -198,7 +198,7 @@ $(function () {
         }
     });
 
-    // ---------- 4. ПРОМОКОД (скидка реально меняет итог) ----------
+    // ---------- 4. PROMO CODE (discount affects the total) ----------
     $('#promo-btn').on('click', function (e) {
         e.preventDefault();
         const $input = $('#promo-input');
@@ -209,19 +209,19 @@ $(function () {
             discountPct = 0;
             renderCart();
             $input.addClass('is-invalid');
-            $result.html('<span class="text-danger">Введите промокод</span>');
+            $result.html('<span class="text-danger">Please enter a promo code</span>');
         } else if (Object.prototype.hasOwnProperty.call(PROMOS, code)) {
             discountPct = PROMOS[code];
             $input.removeClass('is-invalid').addClass('is-valid');
             renderCart();
             if (Object.keys(cart).length === 0) {
-                $result.html(`<span class="text-success fw-bold">Скидка ${discountPct}% применена!</span>`);
+                $result.html(`<span class="text-success fw-bold">Discount of ${discountPct}% applied!</span>`);
             }
         } else {
             discountPct = 0;
             renderCart();
             $input.addClass('is-invalid');
-            $result.html('<span class="text-danger">Неверный промокод</span>');
+            $result.html('<span class="text-danger">Invalid promo code</span>');
         }
     });
 
@@ -234,7 +234,7 @@ $(function () {
         }
     });
 
-    // ---------- 5. ОФОРМЛЕНИЕ ЗАКАЗА (с проверкой адреса и телефона) ----------
+    // ---------- 5. CHECKOUT (with address and phone validation) ----------
     $('#delivery-street, #delivery-phone').on('input', function () {
         clearError($(this));
     });
@@ -253,7 +253,7 @@ $(function () {
         e.preventDefault();
 
         if (Object.keys(cart).length === 0) {
-            showCheckoutMessage('alert-warning', 'Ваша корзина пуста!', 'Добавьте блюда в заказ.');
+            showCheckoutMessage('alert-warning', 'Your cart is empty!', 'Please add dishes to your order.');
             return;
         }
 
@@ -265,11 +265,11 @@ $(function () {
         clearError($phone);
 
         if ($street.val().trim().length < 5) {
-            showError($street, 'Укажите улицу и номер дома.');
+            showError($street, 'Please enter street address and building number.');
             isValid = false;
         }
         if (!isValidPhone($phone.val().trim())) {
-            showError($phone, 'Введите телефон, например +7 701 123 45 67.');
+            showError($phone, 'Enter a valid phone, e.g. +7 701 123 45 67.');
             isValid = false;
         }
         if (!isValid) return;
@@ -279,13 +279,13 @@ $(function () {
         const apt = $('#delivery-apt').val().trim();
         const floor = $('#delivery-floor').val().trim();
         let address = $street.val().trim();
-        if (apt) address += ', кв. ' + apt;
-        if (floor) address += ', этаж ' + floor;
+        if (apt) address += ', apt. ' + apt;
+        if (floor) address += ', floor ' + floor;
 
-        showCheckoutMessage('alert-success', 'Заказ успешно оформлен!',
-            `Спасибо за заказ в Nesibe Cafe. Позиций: ${count}, итого: ${totalText}. Адрес: ${address}. Менеджер позвонит на ${$phone.val().trim()}.`);
+        showCheckoutMessage('alert-success', 'Order placed successfully!',
+            `Thank you for ordering with Nesibe Cafe. Items: ${count}, total: ${totalText}. Delivery address: ${address}. Our manager will call you at ${$phone.val().trim()}.`);
 
-        // новый заказ — с чистого листа
+        // new order — start fresh
         cart = {};
         discountPct = 0;
         $('#promo-input').val('').removeClass('is-valid is-invalid');
@@ -294,6 +294,6 @@ $(function () {
         renderCart();
     });
 
-    // ---------- СТАРТ ----------
+    // ---------- INITIALIZATION ----------
     applyFilter();
 });
