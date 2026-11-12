@@ -1,4 +1,4 @@
-// jQuery 3.7.1 — Contact page: FAQ and review form.
+// jQuery 3.7.1 — Contact page: FAQ and review form with localStorage persistence.
 $(function () {
 
     // ---------- 1. FAQ: click on question expands / collapses answer ----------
@@ -12,13 +12,52 @@ $(function () {
             $question.attr('aria-expanded', $question.attr('aria-expanded') === 'true' ? 'false' : 'true');
         });
 
-    // ---------- 2. REVIEW FORM ----------
+    // ---------- 2. REVIEW FORM & PERSISTENCE (localStorage) ----------
     const $form = $('#reviewForm');
     const $list = $('#reviews-list');
     $form.prop('noValidate', true); // validation handled in code
 
-    // empty reviews list state
-    $list.append('<p class="text-muted text-center" id="no-reviews">No reviews yet — be the first to leave one!</p>');
+    const STORAGE_KEY = 'nesibe_guest_reviews';
+
+    const DEFAULT_REVIEWS = [
+        {
+            name: 'Marat K.',
+            date: '15.02.2024',
+            place: 'Main Hall',
+            rating: 5,
+            text: 'The besbarmak here reminds me of my grandmother\'s cooking. Authentic flavors and heartwarming hospitality!'
+        },
+        {
+            name: 'Saule B.',
+            date: '28.03.2024',
+            place: 'VIP Room',
+            rating: 5,
+            text: 'Hosted a business dinner here. The staff was incredibly attentive, and foreign colleagues loved the national drinks.'
+        }
+    ];
+
+    function getStoredReviews() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved !== null) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed)) return parsed;
+            }
+        } catch (e) {
+            console.error('Error reading reviews from localStorage:', e);
+        }
+        return DEFAULT_REVIEWS.slice();
+    }
+
+    function saveStoredReviews(reviewsToSave) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(reviewsToSave));
+        } catch (e) {
+            console.error('Error saving reviews to localStorage:', e);
+        }
+    }
+
+    let reviews = getStoredReviews();
 
     function showError($field, message) {
         $field.addClass('is-invalid');
@@ -30,28 +69,43 @@ $(function () {
         $field.removeClass('is-invalid').next('.error-msg').remove();
     }
 
-    function addReview(review) {
-        $('#no-reviews').remove();
-        let $section = $list.find('.comment-section');
-        if ($section.length === 0) {
-            $section = $('<div class="comment-section"></div>')
-                .append('<h3 class="h5 text-brand mb-3">Guest Reviews</h3>')
-                .appendTo($list);
-        }
-
-        const $box = $('<div class="comment-box"></div>')
+    function buildReviewBox(review) {
+        return $('<div class="comment-box"></div>')
             .append(
                 $('<div class="d-flex justify-content-between align-items-center mb-1"></div>')
                     .append($('<strong></strong>').text(review.name))
                     .append($('<span class="badge-premium"></span>').text('★'.repeat(review.rating) + ' ' + review.rating + '/5'))
             )
             .append($('<div class="small text-muted mb-2"></div>').text(review.place + ' · ' + review.date))
-            .append($('<p class="mb-0"></p>').text(review.text))
-            .hide();
-
-        $section.find('h3').after($box);
-        $box.slideDown(300);
+            .append($('<p class="mb-0"></p>').text(review.text));
     }
+
+    function renderReviews() {
+        $list.empty();
+        if (reviews.length === 0) {
+            $list.append('<p class="text-muted text-center" id="no-reviews">No reviews yet — be the first to leave one!</p>');
+            return;
+        }
+
+        const $section = $('<div class="comment-section"></div>')
+            .append('<h3 class="h5 text-brand mb-3">Guest Reviews</h3>')
+            .appendTo($list);
+
+        $.each(reviews, function (i, review) {
+            $section.append(buildReviewBox(review));
+        });
+    }
+
+    // Render saved reviews on initial load
+    renderReviews();
+
+    // Sync across open browser tabs
+    window.addEventListener('storage', function (e) {
+        if (e.key === STORAGE_KEY) {
+            reviews = getStoredReviews();
+            renderReviews();
+        }
+    });
 
     $form.on('submit', function (e) {
         e.preventDefault();
@@ -92,13 +146,30 @@ $(function () {
 
         if (!isValid) return;
 
-        addReview({
+        const newReview = {
             name: $name.val().trim(),
             date: $date.val().split('-').reverse().join('.'),
             place: $place.val(),
             rating: ratingVal,
             text: $text.val().trim()
-        });
+        };
+
+        // Persist new review in localStorage
+        reviews.unshift(newReview);
+        saveStoredReviews(reviews);
+
+        // Prepend new review to the DOM with animation
+        $('#no-reviews').remove();
+        let $section = $list.find('.comment-section');
+        if ($section.length === 0) {
+            $section = $('<div class="comment-section"></div>')
+                .append('<h3 class="h5 text-brand mb-3">Guest Reviews</h3>')
+                .appendTo($list);
+        }
+
+        const $box = buildReviewBox(newReview).hide();
+        $section.find('h3').after($box);
+        $box.slideDown(300);
 
         $form[0].reset();
         $('#charCount').text('0');
