@@ -36,45 +36,45 @@
 
 <main class="container overlap-container mb-5">
   <div class="row g-5">
-    
+
     <!-- LEFT COL: Table Booking -->
     <div class="col-lg-7">
       <div class="bg-brand-light p-4 p-md-5 mb-5 rounded-4 shadow-sm">
         <h2 class="mb-4 text-brand">Book a Table</h2>
-        <form action="#">
+        <form action="#" id="bookingForm">
           <fieldset class="border p-4 rounded-4 mb-4 bg-white">
             <legend class="float-none w-auto px-3 fs-5 font-playfair text-brand">Personal Information</legend>
             <div class="mb-3">
               <label class="form-label">Full Name *</label>
-              <input type="text" class="form-control rounded-pill px-4" required placeholder="Aigerim Tleubergenova">
+              <input type="text" id="bk-name" class="form-control rounded-pill px-4" required placeholder="Aigerim Tleubergenova">
             </div>
             <div class="row g-3">
-              <div class="col-md-6"><label class="form-label">Email *</label><input type="email" class="form-control rounded-pill px-4" required placeholder="name@example.com"></div>
-              <div class="col-md-6"><label class="form-label">Phone *</label><input type="tel" class="form-control rounded-pill px-4" required placeholder="+7 (701) ..."></div>
+              <div class="col-md-6"><label class="form-label">Email *</label><input type="email" id="bk-email" class="form-control rounded-pill px-4" required placeholder="name@example.com"></div>
+              <div class="col-md-6"><label class="form-label">Phone *</label><input type="tel" id="bk-phone" class="form-control rounded-pill px-4" required placeholder="+7 (701) ..."></div>
             </div>
           </fieldset>
           <fieldset class="border p-4 rounded-4 mb-4 bg-white">
             <legend class="float-none w-auto px-3 fs-5 font-playfair text-brand">Reservation Details</legend>
             <div class="row g-3">
-              <div class="col-md-6"><label class="form-label">Date *</label><input type="date" class="form-control rounded-pill px-4" required></div>
-              <div class="col-md-6"><label class="form-label">Guests *</label><input type="number" class="form-control rounded-pill px-4" min="1" max="20" required placeholder="4"></div>
+              <div class="col-md-6"><label class="form-label">Date *</label><input type="date" id="bk-date" class="form-control rounded-pill px-4" required></div>
+              <div class="col-md-6"><label class="form-label">Guests *</label><input type="number" id="bk-guests" class="form-control rounded-pill px-4" min="1" max="20" required placeholder="4"></div>
             </div>
             <div class="mb-3 mt-3">
               <label class="form-label">Seating Preference</label>
-              <select class="form-select rounded-pill px-4">
+              <select id="bk-seat" class="form-select rounded-pill px-4">
                 <option>Choose...</option><option>Indoor</option><option>Outdoor Terrace</option><option>VIP Room</option><option>Bar Area</option>
               </select>
             </div>
             <div class="mb-3">
               <label class="form-label">Special Requests</label>
-              <textarea class="form-control rounded-4 p-3" rows="3" placeholder="Allergies, dietary needs..."></textarea>
+              <textarea id="bk-notes" class="form-control rounded-4 p-3" rows="3" placeholder="Allergies, dietary needs..."></textarea>
             </div>
           </fieldset>
           <div class="d-grid gap-2"><button type="submit" class="btn btn-brand btn-lg rounded-pill">Reserve Table</button><button type="reset" class="btn btn-outline-brand rounded-pill bg-white">Clear Form</button></div>
         </form>
       </div>
     </div>
-    
+
     <!-- RIGHT COL: Info & FAQ -->
     <div class="col-lg-5">
       <div class="contact-info-card mb-5">
@@ -92,17 +92,17 @@
           <a href="mailto:info@nesibe-cafe.kz" class="fs-5">info@nesibe-cafe.kz</a>
         </div>
       </div>
-      
+
       <h2 class="mb-4 text-brand">FAQ</h2>
-      <div class="static-block">
+      <div class="static-block faq-item">
         <h3>Vegetarian options?</h3>
         <p class="mb-0 text-muted">Yes! We offer vegetable plov, fresh regional salads, and traditional baked breads.</p>
       </div>
-      <div class="static-block">
+      <div class="static-block faq-item">
         <h3>Child-friendly?</h3>
         <p class="mb-0 text-muted">Absolutely. We provide highchairs, a specialized kids menu, and a play corner.</p>
       </div>
-      <div class="static-block">
+      <div class="static-block faq-item">
         <h3>Payment methods?</h3>
         <p class="mb-0 text-muted">We accept Cash, Visa, Mastercard, and Kaspi QR.</p>
       </div>
@@ -153,10 +153,10 @@
 
   <div id="reviews-list" class="mt-4"></div>
 
-  <!-- jQuery & Custom Scripts -->
+  <!-- jQuery (FAQ и отзывы) и Plain JavaScript (бронь стола) -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="js/main.js" defer></script>
   <script src="js/contact.js" defer></script>
+  <script src="js/app.js" defer></script>
 </main>
 
 <footer>

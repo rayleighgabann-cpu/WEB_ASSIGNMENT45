@@ -35,7 +35,7 @@
 </header>
 
 <main class="container overlap-container mb-5">
-  
+
   <div class="bg-brand-light p-4 mb-5 text-center">
     <h2 class="h3 text-brand">Upcoming Events</h2>
     <p class="lead">Food brings people together. Join our cultural events and workshops!</p>
@@ -43,71 +43,24 @@
   </div>
 
   <h2 class="mb-4 text-brand">Event Calendar</h2>
-  <div class="row g-4 mb-5">
-    <div class="col-md-4">
-      <div class="premium-card">
-        <div class="event-date-header">15 June 2024</div>
-        <div class="card-body">
-          <h4 class="h5 text-brand">Besbarmak Workshop</h4>
-          <p class="small text-muted mb-3">Learn the national dish from scratch with our head chef.</p>
-          <p class="mb-1 text-dark"><strong>Time:</strong> 14:00 - 17:00</p>
-          <p class="mb-3 text-dark"><strong>Price:</strong> 15,000 ₸</p>
-          <div class="mt-auto pt-3">
-            <div class="badge bg-warning text-dark w-100 py-2 mb-3 rounded-pill fw-bold">4 spots left</div>
-            <a href="#eventBookingForm" class="btn btn-outline-brand text-center d-block text-decoration-none">BOOK NOW</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="premium-card">
-        <div class="event-date-header">22 June 2024</div>
-        <div class="card-body">
-          <h4 class="h5 text-brand">Nauryz Celebration</h4>
-          <p class="small text-muted mb-3">Multi-course dinner with traditional dishes and live music.</p>
-          <p class="mb-1 text-dark"><strong>Time:</strong> 18:00 - 22:00</p>
-          <p class="mb-3 text-dark"><strong>Price:</strong> 25,000 ₸</p>
-          <div class="mt-auto pt-3">
-            <div class="badge bg-warning text-dark w-100 py-2 mb-3 rounded-pill fw-bold">8 spots left</div>
-            <a href="#eventBookingForm" class="btn btn-outline-brand text-center d-block text-decoration-none">BOOK NOW</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="premium-card">
-        <div class="event-date-header">29 June 2024</div>
-        <div class="card-body">
-          <h4 class="h5 text-brand">Tea Ceremony</h4>
-          <p class="small text-muted mb-3">Discover the art of Kazakh tea with tasting of 5 varieties.</p>
-          <p class="mb-1 text-dark"><strong>Time:</strong> 15:00 - 17:00</p>
-          <p class="mb-3 text-dark"><strong>Price:</strong> 8,000 ₸</p>
-          <div class="mt-auto pt-3">
-            <div class="badge bg-warning text-dark w-100 py-2 mb-3 rounded-pill fw-bold">6 spots left</div>
-            <a href="#eventBookingForm" class="btn btn-outline-brand text-center d-block text-decoration-none">BOOK NOW</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="row g-4 mb-5" id="events-list"></div>
 
-  <!-- ОБНОВЛЕННЫЙ БЛОК: Форма бронирования ивентов -->
   <div class="bg-brand-light p-4 p-md-5 rounded-4 shadow-sm border border-warning border-opacity-25 mt-4">
     <h3 class="mb-4 text-brand text-center">Забронировать Ивент</h3>
     <form id="eventBookingForm">
       <div class="row g-4 mb-4">
         <div class="col-md-6">
           <label class="form-label text-muted small fw-bold">Имя и Фамилия</label>
-          <input type="text" class="form-control rounded-pill px-4" placeholder="Например, Иван Иванов" required>
+          <input type="text" id="ev-name" class="form-control rounded-pill px-4" placeholder="Например, Иван Иванов" required>
         </div>
         <div class="col-md-6">
           <label class="form-label text-muted small fw-bold">Телефон</label>
-          <input type="tel" class="form-control rounded-pill px-4" placeholder="+7 (___) ___-__-__" required>
+          <input type="tel" id="ev-phone" class="form-control rounded-pill px-4" placeholder="+7 (___) ___-__-__" required>
         </div>
 
         <div class="col-12">
           <label class="form-label text-muted small fw-bold">Какое мероприятие вас интересует?</label>
-          <select class="form-select rounded-pill px-4">
+          <select id="ev-event" class="form-select rounded-pill px-4">
             <option>Кулинарный мастер-класс</option>
             <option>Вечер живой национальной музыки</option>
             <option>Дегустация степного чая</option>
@@ -116,11 +69,11 @@
 
         <div class="col-md-6">
           <label class="form-label text-muted small fw-bold">Дата ивента</label>
-          <input type="date" class="form-control rounded-pill px-4" required>
+          <input type="date" id="ev-date" class="form-control rounded-pill px-4" required>
         </div>
         <div class="col-md-6">
           <label class="form-label text-muted small fw-bold">Количество гостей</label>
-          <input type="number" class="form-control rounded-pill px-4" min="1" value="1">
+          <input type="number" id="ev-guests" class="form-control rounded-pill px-4" min="1" value="1">
         </div>
       </div>
 
@@ -128,9 +81,8 @@
     </form>
   </div>
 
-  <!-- jQuery & Custom Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="js/main.js" defer></script>
+  <!-- Plain JavaScript -->
+  <script src="js/app.js" defer></script>
 </main>
 
 <footer>

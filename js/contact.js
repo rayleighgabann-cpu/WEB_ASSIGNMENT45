@@ -1,82 +1,132 @@
-// jQuery version: 3.7.1
-// $(document).ready() ensures DOM is loaded before validation runs.
-$(document).ready(function() {
-    // REWRITTEN FEATURE: Form validation using jQuery (.val(), .addClass(), .removeClass())
-    // Replaced document.getElementById('reviewForm').addEventListener('submit', ...) with $('#reviewForm').on('submit', ...)
-    // The jQuery version is shorter and clearer because it handles form submission and DOM traversal in one line.
-    $('#reviewForm').on('submit', function(e) {
-        e.preventDefault(); // Prevents page submit & reload. Without this, the form would submit and reload the page, losing all validation feedback.
+// jQuery 3.7.1 — страница Contact: FAQ и форма отзыва.
+$(function () {
 
-        // Browser checks (like 'required') improve UX, but they never replace server checks because users can easily bypass HTML/JS validation by disabling JS or sending direct HTTP requests.
+    // ---------- 1. FAQ: клик по вопросу раскрывает / сворачивает ответ ----------
+    $('.faq-item h3')
+        .attr({ role: 'button', tabindex: 0, 'aria-expanded': 'true' })
+        .on('click keydown', function (e) {
+            if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
+            e.preventDefault();
+            const $question = $(this);
+            $question.closest('.faq-item').find('p').stop(true, true).slideToggle(250);
+            $question.attr('aria-expanded', $question.attr('aria-expanded') === 'true' ? 'false' : 'true');
+        });
 
+    // ---------- 2. ФОРМА ОТЗЫВА ----------
+    const $form = $('#reviewForm');
+    const $list = $('#reviews-list');
+    $form.prop('noValidate', true); // ошибки показывает наш код
+
+    // пустое состояние списка отзывов
+    $list.append('<p class="text-muted text-center" id="no-reviews">Пока нет отзывов — станьте первым!</p>');
+
+    function showError($field, message) {
+        $field.addClass('is-invalid');
+        $('<div class="error-msg text-danger small mt-1"></div>')
+            .text(message).hide().insertAfter($field).fadeIn(200);
+    }
+
+    function clearError($field) {
+        $field.removeClass('is-invalid').next('.error-msg').remove();
+    }
+
+    function addReview(review) {
+        $('#no-reviews').remove();
+        let $section = $list.find('.comment-section');
+        if ($section.length === 0) {
+            $section = $('<div class="comment-section"></div>')
+                .append('<h3 class="h5 text-brand mb-3">Отзывы гостей</h3>')
+                .appendTo($list);
+        }
+
+        const $box = $('<div class="comment-box"></div>')
+            .append(
+                $('<div class="d-flex justify-content-between align-items-center mb-1"></div>')
+                    .append($('<strong></strong>').text(review.name))
+                    .append($('<span class="badge-premium"></span>').text('★'.repeat(review.rating) + ' ' + review.rating + '/5'))
+            )
+            .append($('<div class="small text-muted mb-2"></div>').text(review.place + ' · ' + review.date))
+            .append($('<p class="mb-0"></p>').text(review.text))
+            .hide();
+
+        $section.find('h3').after($box);
+        $box.slideDown(300);
+    }
+
+    $form.on('submit', function (e) {
+        e.preventDefault();
+
+        $form.find('.error-msg').remove();
+        $form.find('.is-invalid').removeClass('is-invalid');
+        $form.find('.success-msg').remove();
+
+        const $name = $form.find('input[type="text"]');
+        const $date = $form.find('input[type="date"]');
+        const $place = $form.find('select');
+        const $rating = $form.find('input[type="number"]');
+        const $text = $form.find('textarea');
+
+        const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD по местному времени
+        const ratingVal = parseInt($rating.val().trim(), 10);
         let isValid = true;
-        $('.error-msg').fadeOut(200, function() { $(this).remove(); });
-        $('#reviewForm .is-invalid').removeClass('is-invalid');
 
-        // Name validation
-        const $name = $(this).find('input[type="text"]').first();
-        if ($name.val().trim() === '') {
-            $name.addClass('is-invalid');
-            $name.parent().append('<div class="error-msg text-danger small mt-1" style="display:none;">Name is required.</div>');
+        if ($name.val().trim().length < 2) {
+            showError($name, 'Введите имя (минимум 2 символа).');
             isValid = false;
         }
-
-        // Email validation with regex
-        const $email = $(this).find('input[type="email"]');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test($email.val().trim())) {
-            $email.addClass('is-invalid');
-            $email.parent().append('<div class="error-msg text-danger small mt-1" style="display:none;">Invalid email format.</div>');
+        if ($date.val() === '') {
+            showError($date, 'Укажите дату визита.');
+            isValid = false;
+        } else if ($date.val() > today) {
+            showError($date, 'Дата визита не может быть в будущем.');
             isValid = false;
         }
-
-        // Phone validation with regex
-        const $phone = $(this).find('input[type="tel"]');
-        const phoneRegex = /^\+?[0-9\s\-()]{7,15}$/;
-        if (!phoneRegex.test($phone.val().trim())) {
-            $phone.addClass('is-invalid');
-            $phone.parent().append('<div class="error-msg text-danger small mt-1" style="display:none;">Invalid phone format.</div>');
-            isValid = false;
-        }
-
-        // Rating validation
-        const $rating = $(this).find('input[type="number"]');
-        const ratingVal = parseInt($rating.val().trim());
         if (isNaN(ratingVal) || ratingVal < 1 || ratingVal > 5) {
-            $rating.addClass('is-invalid');
-            $rating.parent().append('<div class="error-msg text-danger small mt-1" style="display:none;">Rating must be between 1 and 5.</div>');
+            showError($rating, 'Рейтинг — число от 1 до 5.');
+            isValid = false;
+        }
+        if ($text.val().trim().length < 10) {
+            showError($text, 'Отзыв должен содержать минимум 10 символов.');
             isValid = false;
         }
 
-        // Review validation
-        const $review = $(this).find('textarea');
-        if ($review.val().trim().length < 10) {
-            $review.addClass('is-invalid');
-            $review.parent().append('<div class="error-msg text-danger small mt-1" style="display:none;">Review must be at least 10 characters.</div>');
-            isValid = false;
-        }
+        if (!isValid) return;
 
-        if (!isValid) {
-            $('.error-msg').fadeIn(300);
-        } else {
-            const successHtml = '<div class="alert alert-success mt-3 success-msg" style="display:none;">Спасибо! Ваш отзыв успешно отправлен.</div>';
-            $(this).append(successHtml);
-            $('.success-msg').slideDown(400);
-            $(this)[0].reset();
-            $('#charCount').text('0');
-            setTimeout(() => {
-                $('.success-msg').slideUp(300, function() { $(this).remove(); });
-            }, 3000);
+        addReview({
+            name: $name.val().trim(),
+            date: $date.val().split('-').reverse().join('.'),
+            place: $place.val(),
+            rating: ratingVal,
+            text: $text.val().trim()
+        });
+
+        $form[0].reset();
+        $('#charCount').text('0');
+        $('<div class="alert alert-success mt-3 success-msg">Спасибо! Ваш отзыв успешно отправлен.</div>')
+            .hide()
+            .appendTo($form)
+            .slideDown(400)
+            .delay(3000)
+            .slideUp(300, function () { $(this).remove(); });
+    });
+
+    // убираем ошибку, как только поле исправлено
+    $form.on('input change', 'input, textarea, select', function () {
+        const $field = $(this);
+        if ($field.hasClass('is-invalid') && $field.val().trim() !== '') {
+            clearError($field);
         }
     });
 
-    // Character counter for textarea
-    $('#reviewForm textarea').on('input', function() {
-        const len = $(this).val().length;
-        $('#charCount').text(len);
-        if ($(this).val().trim() !== '') {
-            $(this).removeClass('is-invalid');
-            $(this).siblings('.error-msg').fadeOut(200, function() { $(this).remove(); });
-        }
+    // счётчик символов
+    $form.find('textarea').on('input', function () {
+        $('#charCount').text($(this).val().length);
+    });
+
+    // кнопка "ОЧИСТИТЬ"
+    $form.on('reset', function () {
+        $('#charCount').text('0');
+        $form.find('.error-msg, .success-msg').remove();
+        $form.find('.is-invalid').removeClass('is-invalid');
     });
 });

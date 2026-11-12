@@ -43,11 +43,11 @@
         <p><span class="badge bg-danger me-2">Spicy</span><span class="badge bg-success me-2">Vegetarian</span><span class="text-muted small">All dishes prepared fresh daily</span></p>
       </div>
 
-      <h2 class="mb-4 text-brand border-bottom pb-2">Pizza (30 cm)</h2>
-      <div class="row g-4 mb-5 category-section" data-cat="pizza">
+      <h2 class="mb-4 text-brand border-bottom pb-2" >Pizza (30 cm)</h2>
+      <div class="row g-4 mb-5 category-section" data-cat="pizza" id="pizza">
         <div class="col-md-6 col-lg-4">
           <div class="premium-card">
-            <img src="images/pizza.jpg" class="card-img-top" alt="Margherita">
+            <img src="images/pizza.jpg" class="card-img-top" id="pix" alt="Margherita">
             <div class="card-body">
               <h3 class="h5 text-brand">Margherita</h3>
               <p class="text-muted small mb-3">Tomato sauce, mozzarella, fresh basil</p>
@@ -293,12 +293,12 @@
 
           <div class="mb-4 p-3 bg-light rounded-4 border">
             <h6 class="mb-3 text-brand small text-uppercase">Delivery Address</h6>
-            <input type="text" class="form-control form-control-sm mb-2" placeholder="Street Address *">
+            <input type="text" id="delivery-street" class="form-control form-control-sm mb-2" placeholder="Street Address *">
             <div class="d-flex gap-2 mb-2">
-              <input type="text" class="form-control form-control-sm" placeholder="Apt">
-              <input type="text" class="form-control form-control-sm" placeholder="Floor">
+              <input type="text" id="delivery-apt" class="form-control form-control-sm" placeholder="Apt">
+              <input type="text" id="delivery-floor" class="form-control form-control-sm" placeholder="Floor">
             </div>
-            <input type="tel" class="form-control form-control-sm" placeholder="Phone Number *">
+            <input type="tel" id="delivery-phone" class="form-control form-control-sm" placeholder="Phone Number *">
           </div>
 
           <div class="d-flex justify-content-between align-items-center mb-4">
@@ -334,7 +334,6 @@
 
   <!-- Подключаем jQuery перед нашими скриптами -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="js/main.js" defer></script>
   <script src="js/menu.js" defer></script>
 </main>
 <footer>

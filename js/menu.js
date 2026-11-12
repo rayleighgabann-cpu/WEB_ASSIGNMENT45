@@ -1,20 +1,41 @@
+// jQuery 3.7.1 — страница Menu: фильтр, поиск, корзина, промокод, оформление заказа.
+$(function () {
 
-// jQuery version: 3.7.1
-// This script executes after the DOM is fully loaded using $(function() { ... })
-$(function() {
-
-    // Data store for Cart
-    let cart = {};
-
-    // 1. CHANGING THE PAGE: Dynamic dishes addition via .append()
+    // ---------- ДАННЫЕ ----------
     const dynamicDishes = [
         { name: "Kazakh Besbarmak", price: "4,500 ₸", category: "meat", desc: "Traditional boiled meat with handmade noodles." },
         { name: "Baursak (10pcs)", price: "900 ₸", category: "bread", desc: "Golden fried dough pillows." },
         { name: "Shubat (0.5L)", price: "1,200 ₸", category: "drink", desc: "Fermented camel milk." }
     ];
+    const PROMOS = { NESIBE10: 10, SALE10: 10 }; // код -> скидка в %
+    const PHONE_RE = /^\+?[0-9\s\-()]+$/;
 
+    let cart = {};
+    let discountPct = 0;
+    const filter = { cat: 'all', query: '' };
+
+    // ---------- ВСПОМОГАТЕЛЬНЫЕ ----------
+    function setVisible($el, show) {
+        $el.stop(true, true)[show ? 'fadeIn' : 'fadeOut'](200);
+    }
+
+    function isValidPhone(value) {
+        const digits = value.replace(/\D/g, '');
+        return PHONE_RE.test(value) && digits.length >= 10 && digits.length <= 15;
+    }
+
+    function showError($field, message) {
+        $field.addClass('is-invalid')
+            .after($('<div class="error-msg text-danger small mt-1"></div>').text(message));
+    }
+
+    function clearError($field) {
+        $field.removeClass('is-invalid').next('.error-msg').remove();
+    }
+
+    // ---------- 1. ДИНАМИЧЕСКИЕ БЛЮДА ----------
     if ($('#menu-items').length) {
-        $.each(dynamicDishes, function(index, dish) {
+        $.each(dynamicDishes, function (index, dish) {
             const itemHTML = `
                 <div class="col-md-6 col-lg-4 mb-4 category-section" data-cat="${dish.category}">
                     <div class="premium-card border-warning">
@@ -30,36 +51,80 @@ $(function() {
             `;
             $('#menu-items').append(itemHTML);
         });
-
-        updateMenuCount();
     }
 
-    function updateMenuCount() {
-        const visibleCards = $('.premium-card:visible').length;
-        const totalCards = $('.premium-card').length;
-        $('#menu-count').text(`Показано блюд: ${visibleCards} из ${totalCards}`);
+    // ---------- 2. ФИЛЬТР КАТЕГОРИЙ + ПОИСК (работают вместе) ----------
+    function applyFilter() {
+        const total = $('.premium-card').length;
+        let matched = 0;
+
+        $('.premium-card').each(function () {
+            const $card = $(this);
+            const cardCat = $card.closest('[data-cat]').data('cat');
+            const title = $card.find('h3').text().toLowerCase();
+            const isMatch = (filter.cat === 'all' || cardCat === filter.cat) && title.includes(filter.query);
+
+            $card.data('match', isMatch);
+            if (isMatch) matched++;
+            setVisible($card.closest('[class*="col-"]'), isMatch);
+        });
+
+        // секции и заголовки показываем, только если в них есть подходящие блюда
+        $('.col-lg-8 > .row').each(function () {
+            const $row = $(this);
+            const hasMatch = $row.find('.premium-card').filter(function () {
+                return $(this).data('match');
+            }).length > 0;
+            setVisible($row, hasMatch);
+            setVisible($row.prev('h2.border-bottom'), hasMatch);
+        });
+
+        $('#menu-count').text(matched === 0
+            ? 'По вашему запросу ничего не найдено'
+            : `Показано блюд: ${matched} из ${total}`);
     }
 
-    // 2. CART RENDER FUNCTION
+    $('.category-btn').on('click', function (e) {
+        e.preventDefault();
+        $(this).siblings().removeClass('btn-brand').addClass('btn-outline-brand bg-white');
+        $(this).removeClass('btn-outline-brand bg-white').addClass('btn-brand');
+        filter.cat = $(this).data('category');
+        applyFilter();
+    });
+
+    $('#menu-search').on('input', function () {
+        filter.query = $(this).val().toLowerCase().trim();
+        applyFilter();
+    });
+
+    // ---------- 3. КОРЗИНА ----------
+    function showPromoNote(discount) {
+        if (discountPct === 0) return;
+        let text = `Скидка ${discountPct}% применена!`;
+        if (discount > 0) text += ` Экономия: ${discount.toLocaleString('ru-RU')} ₸`;
+        $('#promo-result').empty().append($('<span class="text-success fw-bold"></span>').text(text));
+    }
+
     function renderCart() {
         const $cartContainer = $('#cart-items');
         $cartContainer.find('.cart-entry').remove();
 
         const keys = Object.keys(cart);
-        let grandTotal = 0;
+        let subtotal = 0;
 
         if (keys.length === 0) {
             $('#empty-cart-msg').fadeIn(200);
             $('#cart-total').text('0 ₸');
+            showPromoNote(0);
             return;
         }
 
         $('#empty-cart-msg').hide();
 
-        $.each(keys, function(i, key) {
+        $.each(keys, function (i, key) {
             const item = cart[key];
             const itemTotal = item.price * item.qty;
-            grandTotal += itemTotal;
+            subtotal += itemTotal;
 
             const cartItemHTML = `
                 <div class="cart-entry d-flex justify-content-between align-items-center mb-3 border-bottom pb-2" data-name="${item.name}">
@@ -75,47 +140,40 @@ $(function() {
                     </div>
                 </div>
             `;
-
             $cartContainer.append(cartItemHTML);
         });
 
-        $('#cart-total').text(grandTotal.toLocaleString('ru-RU') + ' ₸');
+        const discount = Math.round(subtotal * discountPct / 100);
+        $('#cart-total').text((subtotal - discount).toLocaleString('ru-RU') + ' ₸');
+        showPromoNote(discount);
     }
 
-    // 3. EVENTS & DELEGATION: Adding items to cart
-    $('main').on('click', '.add-to-cart', function(e) {
-        e.preventDefault(); // Prevents default button behavior
+    // Добавление в корзину (делегирование — работает и для блюд, созданных кодом)
+    $('main').on('click', '.add-to-cart', function (e) {
+        e.preventDefault();
 
         const $card = $(this).closest('.premium-card');
         const dishName = $card.find('h3').text().trim();
-        const priceStr = $card.find('.price-tag').text().trim();
-        const priceNum = parseInt(priceStr.replace(/[^\d]/g, ''));
+        const priceNum = parseInt($card.find('.price-tag').text().replace(/[^\d]/g, ''), 10);
 
         if (!dishName || isNaN(priceNum)) return;
 
         if (cart[dishName]) {
             cart[dishName].qty += 1;
         } else {
-            cart[dishName] = {
-                name: dishName,
-                price: priceNum,
-                qty: 1
-            };
+            cart[dishName] = { name: dishName, price: priceNum, qty: 1 };
         }
-
         renderCart();
 
-        // Button feedback effect (Chaining & .prop())
         const $btn = $(this);
         const originalText = $btn.text();
         $btn.text('✓ Добавлено').addClass('btn-brand').removeClass('btn-outline-brand').prop('disabled', true);
-        setTimeout(() => {
+        setTimeout(function () {
             $btn.text(originalText).removeClass('btn-brand').addClass('btn-outline-brand').prop('disabled', false);
         }, 1000);
     });
 
-    // 4. EVENTS & DELEGATION: Cart Quantity Controls (+, -, remove)
-    $('#cart-items').on('click', '.increase-qty', function() {
+    $('#cart-items').on('click', '.increase-qty', function () {
         const name = $(this).closest('.cart-entry').data('name');
         if (cart[name]) {
             cart[name].qty += 1;
@@ -123,18 +181,16 @@ $(function() {
         }
     });
 
-    $('#cart-items').on('click', '.decrease-qty', function() {
+    $('#cart-items').on('click', '.decrease-qty', function () {
         const name = $(this).closest('.cart-entry').data('name');
         if (cart[name]) {
             cart[name].qty -= 1;
-            if (cart[name].qty <= 0) {
-                delete cart[name];
-            }
+            if (cart[name].qty <= 0) delete cart[name];
             renderCart();
         }
     });
 
-    $('#cart-items').on('click', '.remove-item', function() {
+    $('#cart-items').on('click', '.remove-item', function () {
         const name = $(this).closest('.cart-entry').data('name');
         if (cart[name]) {
             delete cart[name];
@@ -142,115 +198,102 @@ $(function() {
         }
     });
 
-    // 5. CATEGORY FILTERING (FIXED TO WORK WITH ALL SECTIONS)
-    $('.category-btn').on('click', function(e) {
-        e.preventDefault();
-
-        // Active state styling using Chaining
-        $(this).siblings().removeClass('btn-brand').addClass('btn-outline-brand bg-white');
-        $(this).removeClass('btn-outline-brand bg-white').addClass('btn-brand');
-
-        const cat = $(this).data('category'); // 'all', 'pizza', 'burger', 'tea', 'coffee', 'drink'
-
-        if (cat === 'all') {
-            $('.category-section, .premium-card').closest('.col-md-6, .col-lg-4, .col-lg-3, .col-md-3, .col-6, .category-section').fadeIn(300);
-            $('h2.border-bottom').fadeIn(300);
-        } else {
-            // Hide all cards/sections first
-            $('.category-section').hide();
-            $('h2.border-bottom').hide();
-
-            // Show matching category sections
-            $(`.category-section[data-cat="${cat}"]`).fadeIn(300);
-
-            // Show corresponding section heading if available
-            $(`.category-section[data-cat="${cat}"]`).prev('h2.border-bottom').fadeIn(300);
-        }
-
-        $('#menu-search').val('');
-        setTimeout(updateMenuCount, 350);
-    });
-
-    // 6. LIVE SEARCH
-    $('#menu-search').on('keyup', function() {
-        const query = $(this).val().toLowerCase().trim();
-
-        if (query === '') {
-            $('.category-btn[data-category="all"]').click();
-            return;
-        }
-
-        $('h2.border-bottom').show();
-        $('.category-section').show();
-
-        $('.premium-card').each(function() {
-            const title = $(this).find('h3').text().toLowerCase();
-            const $cardCol = $(this).closest('.col-md-6, .col-lg-4, .col-lg-3, .col-md-3, .col-6');
-
-            if (title.includes(query)) {
-                $cardCol.fadeIn(200);
-            } else {
-                $cardCol.fadeOut(200);
-            }
-        });
-
-        setTimeout(updateMenuCount, 250);
-    });
-
-    // 7. PROMO CODE
-    $('#promo-btn').on('click', function(e) {
+    // ---------- 4. ПРОМОКОД (скидка реально меняет итог) ----------
+    $('#promo-btn').on('click', function (e) {
         e.preventDefault();
         const $input = $('#promo-input');
         const $result = $('#promo-result');
         const code = $input.val().trim().toUpperCase();
 
         if (code === '') {
+            discountPct = 0;
+            renderCart();
             $input.addClass('is-invalid');
             $result.html('<span class="text-danger">Введите промокод</span>');
-        } else if (code === 'NESIBE10' || code === 'SALE10') {
+        } else if (Object.prototype.hasOwnProperty.call(PROMOS, code)) {
+            discountPct = PROMOS[code];
             $input.removeClass('is-invalid').addClass('is-valid');
-            $result.html('<span class="text-success fw-bold">Скидка 10% применена!</span>');
+            renderCart();
+            if (Object.keys(cart).length === 0) {
+                $result.html(`<span class="text-success fw-bold">Скидка ${discountPct}% применена!</span>`);
+            }
         } else {
+            discountPct = 0;
+            renderCart();
             $input.addClass('is-invalid');
             $result.html('<span class="text-danger">Неверный промокод</span>');
         }
     });
 
-    $('#promo-input').on('input', function() {
+    $('#promo-input').on('input', function () {
         $(this).removeClass('is-invalid is-valid');
         $('#promo-result').empty();
+        if (discountPct !== 0) {
+            discountPct = 0;
+            renderCart();
+        }
     });
 
-    // 8. CHECKOUT BUTTON & EFFECTS
-    $('#checkout-btn').on('click', function(e) {
+    // ---------- 5. ОФОРМЛЕНИЕ ЗАКАЗА (с проверкой адреса и телефона) ----------
+    $('#delivery-street, #delivery-phone').on('input', function () {
+        clearError($(this));
+    });
+
+    function showCheckoutMessage(type, title, text) {
+        const $alert = $('<div class="alert checkout-alert mt-3"></div>')
+            .addClass(type)
+            .hide()
+            .append($('<h6 class="alert-heading fw-bold mb-1"></h6>').text(title))
+            .append($('<small></small>').text(text));
+        $('#checkout-message').empty().append($alert);
+        $alert.slideDown(400).delay(4000).slideUp(300, function () { $(this).remove(); });
+    }
+
+    $('#checkout-btn').on('click', function (e) {
         e.preventDefault();
 
         if (Object.keys(cart).length === 0) {
-            alert('Ваша корзина пуста! Добавьте блюда.');
+            showCheckoutMessage('alert-warning', 'Ваша корзина пуста!', 'Добавьте блюда в заказ.');
             return;
         }
 
-        const alertHTML = `
-            <div class="alert alert-success checkout-alert mt-3" style="display:none;">
-                <h6 class="alert-heading fw-bold mb-1">Заказ успешно оформлен!</h6>
-                <small>Спасибо за заказ в Nesibe Cafe. Наш менеджер свяжется с вами.</small>
-            </div>
-        `;
+        const $street = $('#delivery-street');
+        const $phone = $('#delivery-phone');
+        let isValid = true;
 
-        $('#checkout-message').html(alertHTML);
+        clearError($street);
+        clearError($phone);
 
-        $('.checkout-alert').slideDown(400, function() {
-            // Callback function after animation completes
-            cart = {};
-            renderCart();
-            setTimeout(() => {
-                $('.checkout-alert').slideUp(300, function() {
-                    $(this).remove();
-                });
-            }, 4000);
-        });
+        if ($street.val().trim().length < 5) {
+            showError($street, 'Укажите улицу и номер дома.');
+            isValid = false;
+        }
+        if (!isValidPhone($phone.val().trim())) {
+            showError($phone, 'Введите телефон, например +7 701 123 45 67.');
+            isValid = false;
+        }
+        if (!isValid) return;
+
+        const totalText = $('#cart-total').text();
+        const count = Object.keys(cart).reduce(function (sum, key) { return sum + cart[key].qty; }, 0);
+        const apt = $('#delivery-apt').val().trim();
+        const floor = $('#delivery-floor').val().trim();
+        let address = $street.val().trim();
+        if (apt) address += ', кв. ' + apt;
+        if (floor) address += ', этаж ' + floor;
+
+        showCheckoutMessage('alert-success', 'Заказ успешно оформлен!',
+            `Спасибо за заказ в Nesibe Cafe. Позиций: ${count}, итого: ${totalText}. Адрес: ${address}. Менеджер позвонит на ${$phone.val().trim()}.`);
+
+        // новый заказ — с чистого листа
+        cart = {};
+        discountPct = 0;
+        $('#promo-input').val('').removeClass('is-valid is-invalid');
+        $('#promo-result').empty();
+        $('#delivery-street, #delivery-apt, #delivery-floor, #delivery-phone').val('');
+        renderCart();
     });
 
-    // Initialize menu count on page load
-    updateMenuCount();
+    // ---------- СТАРТ ----------
+    applyFilter();
 });
