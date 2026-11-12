@@ -34,6 +34,26 @@
   </div>
 </header>
 <main class="container overlap-container mb-5">
+
+  <!-- Search & Filter -->
+  <div class="row mb-5 justify-content-center">
+    <div class="col-md-8 text-center">
+      <div class="bg-brand-light p-4 rounded-4 shadow-sm">
+        <h3 class="text-brand mb-3">Search & Filter</h3>
+        <input type="text" id="menu-search" class="form-control mb-3 rounded-pill px-4" placeholder="Search dishes...">
+
+        <div class="d-flex justify-content-center flex-wrap gap-2">
+          <button class="category-btn btn btn-brand rounded-pill px-3 shadow-sm" data-category="all">All</button>
+          <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="pizza">Pizza</button>
+          <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="burger">Burgers</button>
+          <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="tea">Tea</button>
+          <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="coffee">Coffee</button>
+          <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="drink">Drinks</button>
+        </div>
+        <p id="menu-count" class="text-center text-muted mt-3 mb-0"></p>
+      </div>
+    </div>
+  </div>
   <div class="row g-5">
 
     <div class="col-lg-8">
@@ -313,24 +333,7 @@
     </div>
   </div>
 
-  <p id="menu-count" class="text-center text-muted mb-4"></p>
 
-  <div class="row mb-5 justify-content-center">
-    <div class="col-md-8 text-center">
-      <!-- Search and filter -->
-      <h3 class="text-brand mb-3">Search & Filter</h3>
-      <input type="text" id="menu-search" class="form-control mb-3 rounded-pill px-4" placeholder="Search dishes...">
-
-      <div class="d-flex justify-content-center flex-wrap gap-2">
-        <button class="category-btn btn btn-brand rounded-pill px-3 shadow-sm" data-category="all">All</button>
-        <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="pizza">Pizza</button>
-        <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="burger">Burgers</button>
-        <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="tea">Tea</button>
-        <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="coffee">Coffee</button>
-        <button class="category-btn btn btn-outline-brand bg-white rounded-pill px-3 shadow-sm" data-category="drink">Drinks</button>
-      </div>
-    </div>
-  </div>
 
   <!-- jQuery & custom scripts -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
