@@ -45,29 +45,33 @@
           <fieldset class="border p-4 rounded-4 mb-4 bg-white">
             <legend class="float-none w-auto px-3 fs-5 font-playfair text-brand">Personal Information</legend>
             <div class="mb-3">
-              <label class="form-label">Full Name *</label>
-              <input type="text" id="bk-name" class="form-control rounded-pill px-4" required placeholder="Aigerim Tleubergenova">
+              <label for="bk-name" class="form-label">Full Name *</label>
+              <input type="text" id="bk-name" class="form-control rounded-pill px-4" maxlength="60" required placeholder="Aigerim Tleubergenova">
             </div>
             <div class="row g-3">
-              <div class="col-md-6"><label class="form-label">Email *</label><input type="email" id="bk-email" class="form-control rounded-pill px-4" required placeholder="name@example.com"></div>
-              <div class="col-md-6"><label class="form-label">Phone *</label><input type="tel" id="bk-phone" class="form-control rounded-pill px-4" required placeholder="+7 (701) ..."></div>
+              <div class="col-md-6"><label for="bk-email" class="form-label">Email *</label><input type="email" id="bk-email" class="form-control rounded-pill px-4" maxlength="100" required placeholder="name@example.com"></div>
+              <div class="col-md-6"><label for="bk-phone" class="form-label">Phone *</label><input type="tel" id="bk-phone" class="form-control rounded-pill px-4" maxlength="20" required placeholder="+7 (701) 123-45-67"></div>
             </div>
           </fieldset>
           <fieldset class="border p-4 rounded-4 mb-4 bg-white">
             <legend class="float-none w-auto px-3 fs-5 font-playfair text-brand">Reservation Details</legend>
             <div class="row g-3">
-              <div class="col-md-6"><label class="form-label">Date *</label><input type="date" id="bk-date" class="form-control rounded-pill px-4" required></div>
-              <div class="col-md-6"><label class="form-label">Guests *</label><input type="number" id="bk-guests" class="form-control rounded-pill px-4" min="1" max="20" required placeholder="4"></div>
+              <div class="col-md-6"><label for="bk-date" class="form-label">Date *</label><input type="date" id="bk-date" class="form-control rounded-pill px-4" required></div>
+              <div class="col-md-6">
+                <label for="bk-time" class="form-label">Time *</label>
+                <select id="bk-time" class="form-select rounded-pill px-4" required></select>
+              </div>
+              <div class="col-md-6"><label for="bk-guests" class="form-label">Guests *</label><input type="number" id="bk-guests" class="form-control rounded-pill px-4" min="1" max="20" step="1" required placeholder="4"></div>
             </div>
             <div class="mb-3 mt-3">
-              <label class="form-label">Seating Preference</label>
-              <select id="bk-seat" class="form-select rounded-pill px-4">
-                <option>Choose...</option><option>Indoor</option><option>Outdoor Terrace</option><option>VIP Room</option><option>Bar Area</option>
+              <label for="bk-seat" class="form-label">Seating Preference *</label>
+              <select id="bk-seat" class="form-select rounded-pill px-4" required>
+                <option value="">Choose...</option><option value="Indoor">Indoor</option><option value="Outdoor Terrace">Outdoor Terrace</option><option value="VIP Room">VIP Room</option><option value="Bar Area">Bar Area</option>
               </select>
             </div>
             <div class="mb-3">
-              <label class="form-label">Special Requests</label>
-              <textarea id="bk-notes" class="form-control rounded-4 p-3" rows="3" placeholder="Allergies, dietary needs..."></textarea>
+              <label for="bk-notes" class="form-label">Special Requests</label>
+              <textarea id="bk-notes" class="form-control rounded-4 p-3" rows="3" maxlength="300" placeholder="Allergies, dietary needs..."></textarea>
             </div>
           </fieldset>
           <div class="d-grid gap-2"><button type="submit" class="btn btn-brand btn-lg rounded-pill">Reserve Table</button><button type="reset" class="btn btn-outline-brand rounded-pill bg-white">Clear Form</button></div>
@@ -115,32 +119,32 @@
     <form id="reviewForm">
       <div class="row g-3 mb-3">
         <div class="col-md-6">
-          <label class="form-label text-muted small mb-1">Name</label>
-          <input type="text" class="form-control rounded-pill px-4" placeholder="Your name" required>
+          <label for="rev-name" class="form-label text-muted small mb-1">Name *</label>
+          <input type="text" id="rev-name" class="form-control rounded-pill px-4" maxlength="60" placeholder="Your name" required>
         </div>
         <div class="col-md-6">
-          <label class="form-label text-muted small mb-1">Date (mm/dd/yyyy)</label>
-          <input type="date" class="form-control rounded-pill px-4" required>
+          <label for="rev-date" class="form-label text-muted small mb-1">Date (mm/dd/yyyy) *</label>
+          <input type="date" id="rev-date" class="form-control rounded-pill px-4" required>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label text-muted small mb-1">Select Area</label>
-        <select class="form-select rounded-pill px-4">
-          <option>Main Hall</option>
-          <option>Terrace</option>
-          <option>VIP Room</option>
+        <label for="rev-area" class="form-label text-muted small mb-1">Select Area *</label>
+        <select id="rev-area" class="form-select rounded-pill px-4" required>
+          <option value="Main Hall">Main Hall</option>
+          <option value="Terrace">Terrace</option>
+          <option value="VIP Room">VIP Room</option>
         </select>
       </div>
 
       <div class="mb-3">
-        <label class="form-label text-muted small mb-1">Rating (1-5)</label>
-        <input type="number" class="form-control rounded-pill px-4" min="1" max="5" placeholder="5">
+        <label for="rev-rating" class="form-label text-muted small mb-1">Rating (1-5) *</label>
+        <input type="number" id="rev-rating" class="form-control rounded-pill px-4" min="1" max="5" step="1" placeholder="5" required>
       </div>
 
       <div class="mb-3">
-        <label class="form-label text-muted small mb-1">Your Review</label>
-        <textarea class="form-control rounded-4 p-3" rows="4" maxlength="500" placeholder="Share your impressions..."></textarea>
+        <label for="rev-text" class="form-label text-muted small mb-1">Your Review *</label>
+        <textarea id="rev-text" class="form-control rounded-4 p-3" rows="4" maxlength="500" placeholder="Share your impressions..." required></textarea>
         <div class="text-end text-muted small mt-1"><span id="charCount">0</span> / 500 characters</div>
       </div>
 

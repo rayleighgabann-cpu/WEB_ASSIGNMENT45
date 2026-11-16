@@ -59,14 +59,94 @@ $(function () {
 
     let reviews = getStoredReviews();
 
-    function showError($field, message) {
-        $field.addClass('is-invalid');
-        $('<div class="error-msg text-danger small mt-1"></div>')
-            .text(message).hide().insertAfter($field).fadeIn(200);
+    const $nameField = $form.find('input[type="text"]');
+    const $dateField = $form.find('input[type="date"]');
+    const $placeField = $form.find('select');
+    const $ratingField = $form.find('input[type="number"]');
+    const $textField = $form.find('textarea');
+
+    const MIN_VISIT_DATE = '2019-01-01';
+    const ALLOWED_AREAS = ['Main Hall', 'Terrace', 'VIP Room'];
+
+    function getTodayIso() {
+        return new Date().toLocaleDateString('en-CA');
     }
 
-    function clearError($field) {
+    $dateField.attr({ min: MIN_VISIT_DATE, max: getTodayIso() });
+
+    function showError($field, message) {
+        $field.removeClass('is-valid').addClass('is-invalid');
+        const $existing = $field.next('.error-msg');
+        if ($existing.length) {
+            $existing.text(message);
+        } else {
+            $('<div class="error-msg text-danger small mt-1"></div>')
+                .text(message).hide().insertAfter($field).fadeIn(200);
+        }
+    }
+
+    function clearError($field, markValid) {
         $field.removeClass('is-invalid').next('.error-msg').remove();
+        $field.toggleClass('is-valid', Boolean(markValid));
+    }
+
+    function checkReviewName(val) {
+        const v = val.trim();
+        if (!v) return 'Please enter your name.';
+        if (v.length < 2 || v.length > 60) return 'Name must be between 2 and 60 characters.';
+        if (!/^[A-Za-zА-Яа-яЁёӘәІіҢңҒғҮүҰұҚқӨөҺһ\s.'-]+$/.test(v)) {
+            return 'Name can only contain letters, spaces, and hyphens.';
+        }
+        const letters = v.match(/[A-Za-zА-Яа-яЁёӘәІіҢңҒғҮүҰұҚқӨөҺһ]/g) || [];
+        if (letters.length < 2) return 'Name must contain at least 2 letters.';
+        return '';
+    }
+
+    function checkReviewDate(val) {
+        const v = val.trim();
+        if (!v) return 'Please select the date of your visit.';
+        const today = getTodayIso();
+        if (v > today) return 'Visit date cannot be in the future.';
+        if (v < MIN_VISIT_DATE) return 'Visit date cannot be earlier than 2019 (cafe opening year).';
+        return '';
+    }
+
+    function checkReviewArea(val) {
+        return ALLOWED_AREAS.indexOf(val) === -1 ? 'Please select a valid cafe area.' : '';
+    }
+
+    function checkReviewRating(val) {
+        const v = val.trim();
+        if (!v) return 'Please enter a rating from 1 to 5.';
+        if (!/^[1-5]$/.test(v)) return 'Rating must be a whole number from 1 to 5.';
+        return '';
+    }
+
+    function checkReviewText(val) {
+        const v = val.trim();
+        if (!v) return 'Please write your review.';
+        if (v.length < 10) return 'Review must contain at least 10 characters.';
+        if (v.length > 500) return 'Review cannot exceed 500 characters.';
+        const letters = v.match(/[A-Za-zА-Яа-яЁёӘәІіҢңҒғҮүҰұҚқӨөҺһ]/g) || [];
+        if (letters.length < 5) return 'Review must contain meaningful text (at least a few words).';
+        return '';
+    }
+
+    function validateReviewField($field, showValid) {
+        let err = '';
+        const val = $field.val() || '';
+        if ($field.is($nameField)) err = checkReviewName(val);
+        else if ($field.is($dateField)) err = checkReviewDate(val);
+        else if ($field.is($placeField)) err = checkReviewArea(val);
+        else if ($field.is($ratingField)) err = checkReviewRating(val);
+        else if ($field.is($textField)) err = checkReviewText(val);
+
+        if (err) {
+            showError($field, err);
+            return false;
+        }
+        clearError($field, showValid && val.trim() !== '');
+        return true;
     }
 
     function buildReviewBox(review) {
@@ -109,49 +189,30 @@ $(function () {
 
     $form.on('submit', function (e) {
         e.preventDefault();
-
-        $form.find('.error-msg').remove();
-        $form.find('.is-invalid').removeClass('is-invalid');
         $form.find('.success-msg').remove();
 
-        const $name = $form.find('input[type="text"]');
-        const $date = $form.find('input[type="date"]');
-        const $place = $form.find('select');
-        const $rating = $form.find('input[type="number"]');
-        const $text = $form.find('textarea');
+        const fields = [$nameField, $dateField, $placeField, $ratingField, $textField];
+        let firstInvalid = null;
 
-        const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD in local time
-        const ratingVal = parseInt($rating.val().trim(), 10);
-        let isValid = true;
+        $.each(fields, function (i, $f) {
+            if (!$f.is('select')) $f.val($f.val().trim());
+            if (!validateReviewField($f, true) && !firstInvalid) {
+                firstInvalid = $f;
+            }
+        });
 
-        if ($name.val().trim().length < 2) {
-            showError($name, 'Please enter your name (minimum 2 characters).');
-            isValid = false;
-        }
-        if ($date.val() === '') {
-            showError($date, 'Please select the date of your visit.');
-            isValid = false;
-        } else if ($date.val() > today) {
-            showError($date, 'Visit date cannot be in the future.');
-            isValid = false;
-        }
-        if (isNaN(ratingVal) || ratingVal < 1 || ratingVal > 5) {
-            showError($rating, 'Rating must be a number from 1 to 5.');
-            isValid = false;
-        }
-        if ($text.val().trim().length < 10) {
-            showError($text, 'Review must contain at least 10 characters.');
-            isValid = false;
+        if (firstInvalid) {
+            firstInvalid.trigger('focus');
+            return;
         }
 
-        if (!isValid) return;
-
+        const ratingVal = parseInt($ratingField.val().trim(), 10);
         const newReview = {
-            name: $name.val().trim(),
-            date: $date.val().split('-').reverse().join('.'),
-            place: $place.val(),
+            name: $nameField.val().trim(),
+            date: $dateField.val().split('-').reverse().join('.'),
+            place: $placeField.val(),
             rating: ratingVal,
-            text: $text.val().trim()
+            text: $textField.val().trim()
         };
 
         // Persist new review in localStorage
@@ -172,6 +233,8 @@ $(function () {
         $box.slideDown(300);
 
         $form[0].reset();
+        $form.find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+        $form.find('.error-msg').remove();
         $('#charCount').text('0');
         $('<div class="alert alert-success mt-3 success-msg">Thank you! Your review has been submitted successfully.</div>')
             .hide()
@@ -181,11 +244,18 @@ $(function () {
             .slideUp(300, function () { $(this).remove(); });
     });
 
-    // clear error as soon as field is fixed
+    // Re-validate field on input/change/blur and clear error only when genuinely valid
     $form.on('input change', 'input, textarea, select', function () {
         const $field = $(this);
-        if ($field.hasClass('is-invalid') && $field.val().trim() !== '') {
-            clearError($field);
+        if ($field.hasClass('is-invalid') || $field.hasClass('is-valid')) {
+            validateReviewField($field, true);
+        }
+    });
+
+    $form.on('blur', 'input, textarea, select', function () {
+        const $field = $(this);
+        if (($field.val() && $field.val().trim() !== '') || $field.hasClass('is-invalid')) {
+            validateReviewField($field, true);
         }
     });
 
@@ -198,6 +268,6 @@ $(function () {
     $form.on('reset', function () {
         $('#charCount').text('0');
         $form.find('.error-msg, .success-msg').remove();
-        $form.find('.is-invalid').removeClass('is-invalid');
+        $form.find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
     });
 });

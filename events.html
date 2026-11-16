@@ -50,17 +50,17 @@
     <form id="eventBookingForm">
       <div class="row g-4 mb-4">
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Full Name</label>
-          <input type="text" id="ev-name" class="form-control rounded-pill px-4" placeholder="e.g. Aigerim Tleubergenova" required>
+          <label for="ev-name" class="form-label text-muted small fw-bold">Full Name *</label>
+          <input type="text" id="ev-name" class="form-control rounded-pill px-4" maxlength="60" placeholder="e.g. Aigerim Tleubergenova" required>
         </div>
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Phone</label>
-          <input type="tel" id="ev-phone" class="form-control rounded-pill px-4" placeholder="+7 (___) ___-__-__" required>
+          <label for="ev-phone" class="form-label text-muted small fw-bold">Phone *</label>
+          <input type="tel" id="ev-phone" class="form-control rounded-pill px-4" maxlength="20" placeholder="+7 (701) 123-45-67" required>
         </div>
 
         <div class="col-12">
-          <label class="form-label text-muted small fw-bold">Which event are you interested in?</label>
-          <select id="ev-event" class="form-select rounded-pill px-4">
+          <label for="ev-event" class="form-label text-muted small fw-bold">Which event are you interested in? *</label>
+          <select id="ev-event" class="form-select rounded-pill px-4" required>
             <option>Besbarmak Workshop</option>
             <option>Nauryz Celebration</option>
             <option>Tea Ceremony</option>
@@ -68,12 +68,12 @@
         </div>
 
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Event Date</label>
+          <label for="ev-date" class="form-label text-muted small fw-bold">Event Date *</label>
           <input type="date" id="ev-date" class="form-control rounded-pill px-4" required>
         </div>
         <div class="col-md-6">
-          <label class="form-label text-muted small fw-bold">Number of Guests</label>
-          <input type="number" id="ev-guests" class="form-control rounded-pill px-4" min="1" value="1">
+          <label for="ev-guests" class="form-label text-muted small fw-bold">Number of Guests *</label>
+          <input type="number" id="ev-guests" class="form-control rounded-pill px-4" min="1" max="20" step="1" value="1" required>
         </div>
       </div>
 
