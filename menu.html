@@ -3,417 +3,758 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Menu of Nesibe Ethnic Cafe in Astana: Kazakh national dishes, pizzas, burgers, tea ceremony and coffee. Prices in tenge, online order and delivery.">
   <title>Nesibe Ethnic Cafe - Menu</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
+  <style>
+    main .premium-card {
+      position: relative;
+    }
+
+    .dish-hover-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 72px;
+      background: linear-gradient(160deg, rgba(44, 26, 14, 0.96) 0%, rgba(102, 48, 14, 0.94) 100%);
+      backdrop-filter: blur(6px);
+      color: #FDFBF7;
+      padding: 1.15rem 1.2rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(245, 197, 24, 0.35);
+      overflow-y: auto;
+    }
+
+    main .premium-card:hover .dish-hover-overlay,
+    main .premium-card:focus-within .dish-hover-overlay {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dish-hover-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #F5C518;
+      margin-bottom: 0.35rem;
+      line-height: 1.2;
+    }
+
+    .dish-hover-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 0.65rem;
+    }
+
+    .dish-hover-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 50rem;
+      background: rgba(245, 197, 24, 0.16);
+      color: #F5DEB3;
+      border: 1px solid rgba(245, 197, 24, 0.3);
+    }
+
+    .dish-hover-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      color: #F5C518;
+      margin-bottom: 0.35rem;
+    }
+
+    .dish-hover-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #FDFBF7;
+    }
+
+    .dish-hover-list li {
+      position: relative;
+      padding-left: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .dish-hover-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #F5C518;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg sticky-top">
   <div class="container">
     <a class="navbar-brand" href="index.html">Nesibe Cafe</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="menu.html">Menu</a></li>
+        <li class="nav-item"><a class="nav-link active" href="menu.html">Menu</a></li>
         <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-        <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="careers.html">Careers</a></li>
+        <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<main>
-  <section class="hero-section">
-    <div class="container">
-      <h1 class="display-4 fw-bold">Our Menu</h1>
-      <p class="lead mb-0">All prices in Kazakhstani Tenge (₸)</p>
-    </div>
-  </section>
+<header class="hero-section">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Our Menu</h1>
+    <p class="lead mb-0">All prices in Kazakhstani Tenge (₸)</p>
+  </div>
+</header>
 
-  <div class="overlap-container">
-    <div class="container">
-      <div class="row g-4">
+<main class="container overlap-container mb-5">
+  <div class="row g-4">
 
-        <!-- ================= MAIN COLUMN ================= -->
-        <div class="col-lg-8">
+    <div class="col-lg-8">
+      <div class="bg-brand-light mb-5">
+        <h2 class="h4 text-brand text-center mb-3">Search &amp; Filter</h2>
+        <input type="search" id="menu-search" class="form-control mb-3" maxlength="50" placeholder="Search by name or description..." autocomplete="off">
 
-          <!-- Search & Filter (на месте бывшего блока "About Our Menu") -->
-          <div class="bg-brand-light mb-5">
-            <h2 class="h4 text-brand text-center mb-4">Search &amp; Filter</h2>
-
-            <label for="menu-search" class="form-label">Find a dish</label>
-            <input type="search" id="menu-search" class="form-control mb-4"
-                   placeholder="Search by name or description..." autocomplete="off">
-
-            <div class="d-flex flex-wrap justify-content-center gap-2">
-              <button type="button" class="btn btn-brand category-btn" data-category="all">All</button>
-              <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="pizza">Pizza</button>
-              <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="burgers">Burgers</button>
-              <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="national">National</button>
-              <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="tea">Tea</button>
-              <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="coffee">Coffee</button>
-              <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="drinks">Drinks</button>
-            </div>
-
-            <p id="menu-count" class="text-muted small text-center mt-4 mb-0"></p>
-          </div>
-
-          <!-- ---------- PIZZA ---------- -->
-          <h2 class="border-bottom pb-2 mb-4">Pizza (30 cm)</h2>
-          <div class="row" data-cat="pizza">
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/pizza.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Margherita pizza with tomato sauce, mozzarella and basil">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Margherita</h3>
-                  <p class="text-muted small mb-3">Tomato sauce, mozzarella, fresh basil</p>
-                  <div class="fw-bold mb-3 price-tag">2,750 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/pizza.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Pepperoni pizza with spicy sausage and mozzarella">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Pepperoni</h3>
-                  <p class="text-muted small mb-3">Tomato sauce, mozzarella, spicy pepperoni</p>
-                  <div class="fw-bold mb-3 price-tag">3,150 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/pizza.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Duck pizza with roasted duck and caramelized onions">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Duck Pizza</h3>
-                  <p class="text-muted small mb-3">Roasted duck, caramelized onions, hoisin sauce</p>
-                  <div class="fw-bold mb-3 price-tag">3,350 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ---------- BURGERS ---------- -->
-          <h2 class="border-bottom pb-2 mb-4">Burgers</h2>
-          <div class="row" data-cat="burgers">
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/burger.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Classic beef burger in a brioche bun">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Classic Burger</h3>
-                  <p class="text-muted small mb-3">Beef patty, fresh veggies, house sauce, brioche bun.</p>
-                  <div class="fw-bold mb-3 price-tag">2,900 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/burger.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Double burger with two beef patties and double cheese">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Double Burger</h3>
-                  <p class="text-muted small mb-3">Two beef patties, double cheese, caramelized onion.</p>
-                  <div class="fw-bold mb-3 price-tag">3,590 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/burger.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Burger with local horse meat and smoked cheese">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Horse Meat Burger</h3>
-                  <p class="text-muted small mb-3">Premium local horse meat, smoked cheese, signature sauce.</p>
-                  <div class="fw-bold mb-3 price-tag">2,990 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/burger.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Double horse meat burger with smoked cheese">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Double Horse Meat</h3>
-                  <p class="text-muted small mb-3">Double premium local horse meat, smoked cheese.</p>
-                  <div class="fw-bold mb-3 price-tag">3,590 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ---------- NATIONAL DISHES (карточки строит menu.js) ---------- -->
-          <h2 class="border-bottom pb-2 mb-4">National Dishes</h2>
-          <div class="row" id="menu-items"></div>
-
-          <!-- ---------- TEA ---------- -->
-          <h2 class="border-bottom pb-2 mb-4">Tea Selection</h2>
-          <div class="row" data-cat="tea">
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Pot of Moroccan tea with mint">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Moroccan Tea</h3>
-                  <p class="text-muted small mb-3">Pot</p>
-                  <div class="fw-bold mb-3 price-tag">2,300 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Pot of ginger tea">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Ginger Tea</h3>
-                  <p class="text-muted small mb-3">Pot</p>
-                  <div class="fw-bold mb-3 price-tag">2,300 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Traditional Kazakh tea served in a pot">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Kazakh Tea</h3>
-                  <p class="text-muted small mb-3">Pot</p>
-                  <div class="fw-bold mb-3 price-tag">2,300 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Samovar tea set for a group">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Samovar Tea</h3>
-                  <p class="text-muted small mb-3">Full Set</p>
-                  <div class="fw-bold mb-3 price-tag">4,890 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ---------- COFFEE ---------- -->
-          <h2 class="border-bottom pb-2 mb-4">Coffee</h2>
-          <div class="row" data-cat="coffee">
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Cup of latte">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Latte</h3>
-                  <p class="text-muted small mb-3">0.4L</p>
-                  <div class="fw-bold mb-3 price-tag">1,390 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Cup of cappuccino">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Cappuccino</h3>
-                  <p class="text-muted small mb-3">0.4L</p>
-                  <div class="fw-bold mb-3 price-tag">1,390 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Cup of americano">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Americano</h3>
-                  <p class="text-muted small mb-3">0.4L</p>
-                  <div class="fw-bold mb-3 price-tag">1,290 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/tea-ceremony.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Cup of espresso">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Espresso</h3>
-                  <p class="text-muted small mb-3">0.3L</p>
-                  <div class="fw-bold mb-3 price-tag">750 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ---------- DRINKS ---------- -->
-          <h2 class="border-bottom pb-2 mb-4">Drinks</h2>
-          <div class="row" data-cat="drinks">
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/kumis.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Jug of homemade lemonade">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Lemonade</h3>
-                  <p class="text-muted small mb-3">1L</p>
-                  <div class="fw-bold mb-3 price-tag">2,600 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/kumis.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Glass of milkshake">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Milkshake</h3>
-                  <p class="text-muted small mb-3">Standard</p>
-                  <div class="fw-bold mb-3 price-tag">1,800 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="premium-card">
-                <img src="images/kumis.jpg" class="card-img-top" width="400" height="200" loading="lazy"
-                     alt="Fresh fruit smoothie">
-                <div class="card-body">
-                  <h3 class="h5 text-brand">Smoothie</h3>
-                  <p class="text-muted small mb-3">Fresh Fruit</p>
-                  <div class="fw-bold mb-3 price-tag">2,490 ₸</div>
-                  <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <div class="d-flex flex-wrap justify-content-center gap-2 menu-filter-group">
+          <button type="button" class="btn btn-brand category-btn" data-category="all">All</button>
+          <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="pizza">Pizza</button>
+          <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="burgers">Burgers</button>
+          <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="national">National</button>
+          <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="tea">Tea</button>
+          <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="coffee">Coffee</button>
+          <button type="button" class="btn btn-outline-brand bg-white category-btn" data-category="drinks">Drinks</button>
         </div>
 
-        <!-- ================= CART ================= -->
-        <div class="col-lg-4">
-          <div class="cart-widget">
-            <div class="cart-header">
-              <h3>Your Order</h3>
-            </div>
-            <div class="p-4">
+        <p id="menu-count" class="text-muted small text-center mt-3 mb-0"></p>
+      </div>
 
-              <div id="cart-items">
-                <p id="empty-cart-msg" class="text-muted text-center mb-3">Your cart is empty</p>
-              </div>
-
-              <div class="mb-4">
-                <label for="promo-input" class="form-label small">Promo Code</label>
-                <div class="d-flex gap-2">
-                  <input type="text" id="promo-input" class="form-control flex-grow-1"
-                         placeholder="NESIBE10" autocomplete="off">
-                  <button type="button" id="promo-btn" class="btn btn-brand flex-shrink-0">Apply</button>
-                </div>
-                <div id="promo-result" class="small mt-2"></div>
-              </div>
-
-              <fieldset class="border rounded p-3 mb-4">
-                <legend class="h6 text-brand float-none w-auto px-2 mb-0">Delivery Address</legend>
-
-                <label for="delivery-street" class="form-label small">Street and building *</label>
-                <input type="text" id="delivery-street" class="form-control mb-3"
-                       placeholder="Uly dala 41" autocomplete="street-address">
-
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <label for="delivery-apt" class="form-label small">Apartment</label>
-                    <input type="text" id="delivery-apt" class="form-control"
-                           placeholder="12" autocomplete="address-line2">
-                  </div>
-                  <div class="col-6">
-                    <label for="delivery-floor" class="form-label small">Floor</label>
-                    <input type="text" id="delivery-floor" class="form-control"
-                           placeholder="3" autocomplete="off">
-                  </div>
-                </div>
-
-                <label for="delivery-phone" class="form-label small">Phone *</label>
-                <input type="tel" id="delivery-phone" class="form-control"
-                       placeholder="+7 701 123 45 67" autocomplete="tel">
-              </fieldset>
-
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="fw-bold">Total:</span>
-                <span id="cart-total" class="h5 fw-bold text-brand mb-0">0 ₸</span>
-              </div>
-
-              <button type="button" id="checkout-btn" class="btn btn-brand w-100">Checkout</button>
-              <div id="checkout-message"></div>
-
+      <h2 class="border-bottom pb-2 mb-4 text-brand">Pizza (30 cm)</h2>
+      <div class="row" data-cat="pizza">
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/margharitta.jpg" class="card-img-top" loading="lazy" alt="Margherita pizza">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Margherita</h3>
+              <p class="text-muted small mb-3">Tomato sauce, mozzarella, fresh basil</p>
+              <div class="fw-bold mb-3 price-tag">2,750 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
             </div>
           </div>
         </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/pizza.jpg" class="card-img-top" loading="lazy" alt="Pepperoni pizza">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Pepperoni</h3>
+              <p class="text-muted small mb-3">Tomato sauce, mozzarella, spicy pepperoni</p>
+              <div class="fw-bold mb-3 price-tag">3,150 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/pizza.jpg" class="card-img-top" loading="lazy" alt="Duck Pizza">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Duck Pizza</h3>
+              <p class="text-muted small mb-3">Roasted duck, caramelized onions, hoisin sauce</p>
+              <div class="fw-bold mb-3 price-tag">3,350 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <h2 class="border-bottom pb-2 mb-4 text-brand">Burgers</h2>
+      <div class="row" data-cat="burgers">
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/burger.jpg" class="card-img-top" loading="lazy" alt="Classic Burger">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Classic Burger</h3>
+              <p class="text-muted small mb-3">Beef patty, fresh veggies, house sauce, brioche bun.</p>
+              <div class="fw-bold mb-3 price-tag">2,900 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/burger.jpg" class="card-img-top" loading="lazy" alt="Double Burger">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Double Burger</h3>
+              <p class="text-muted small mb-3">Two beef patties, double cheese, caramelized onion.</p>
+              <div class="fw-bold mb-3 price-tag">3,590 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/burger.jpg" class="card-img-top" loading="lazy" alt="Horse Meat Burger">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Horse Meat Burger</h3>
+              <p class="text-muted small mb-3">Premium local horse meat, smoked cheese, signature sauce.</p>
+              <div class="fw-bold mb-3 price-tag">2,990 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/burger.jpg" class="card-img-top" loading="lazy" alt="Double Horse Meat">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Double Horse Meat</h3>
+              <p class="text-muted small mb-3">Double premium local horse meat, smoked cheese.</p>
+              <div class="fw-bold mb-3 price-tag">3,590 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="border-bottom pb-2 mb-4 text-brand">National Dishes</h2>
+      <div class="row" id="menu-items"></div>
+
+      <h2 class="border-bottom pb-2 mb-4 text-brand">Tea Selection</h2>
+      <div class="row" data-cat="tea">
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/moroccan-tea.jpg" class="card-img-top" loading="lazy" alt="Moroccan Tea">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Moroccan Tea</h3>
+              <p class="text-muted small mb-3">Pot</p>
+              <div class="fw-bold mb-3 price-tag">2,300 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/gingertea.jpg" class="card-img-top" loading="lazy" alt="Ginger Tea">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Ginger Tea</h3>
+              <p class="text-muted small mb-3">Pot</p>
+              <div class="fw-bold mb-3 price-tag">2,300 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/kazakhtea.jpg" class="card-img-top" loading="lazy" alt="Kazakh Tea">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Kazakh Tea</h3>
+              <p class="text-muted small mb-3">Pot</p>
+              <div class="fw-bold mb-3 price-tag">2,300 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/tea-ceremony.jpg" class="card-img-top" loading="lazy" alt="Samovar Tea">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Samovar Tea</h3>
+              <p class="text-muted small mb-3">Full Set</p>
+              <div class="fw-bold mb-3 price-tag">4,890 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="border-bottom pb-2 mb-4 text-brand">Coffee</h2>
+      <div class="row" data-cat="coffee">
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/latte.jpg" class="card-img-top" loading="lazy" alt="Latte">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Latte</h3>
+              <p class="text-muted small mb-3">0.4L</p>
+              <div class="fw-bold mb-3 price-tag">1,390 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/cappuccino.jpg" class="card-img-top" loading="lazy" alt="Cappuccino">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Cappuccino</h3>
+              <p class="text-muted small mb-3">0.4L</p>
+              <div class="fw-bold mb-3 price-tag">1,390 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/americano.jpg" class="card-img-top" loading="lazy" alt="Americano">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Americano</h3>
+              <p class="text-muted small mb-3">0.4L</p>
+              <div class="fw-bold mb-3 price-tag">1,290 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/espresso.jpg" class="card-img-top" loading="lazy" alt="Espresso">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Espresso</h3>
+              <p class="text-muted small mb-3">0.3L</p>
+              <div class="fw-bold mb-3 price-tag">750 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="border-bottom pb-2 mb-4 text-brand">Drinks</h2>
+      <div class="row" data-cat="drinks">
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/lemonade.jpg" class="card-img-top" loading="lazy" alt="Lemonade">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Lemonade</h3>
+              <p class="text-muted small mb-3">1L</p>
+              <div class="fw-bold mb-3 price-tag">2,600 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/milkshake.jpg" class="card-img-top" loading="lazy" alt="Milkshake">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Milkshake</h3>
+              <p class="text-muted small mb-3">Standard</p>
+              <div class="fw-bold mb-3 price-tag">1,800 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="premium-card">
+            <img src="images/smoothie.jpg" class="card-img-top" loading="lazy" alt="Smoothie">
+            <div class="card-body">
+              <h3 class="h5 text-brand">Smoothie</h3>
+              <p class="text-muted small mb-3">Fresh Fruit</p>
+              <div class="fw-bold mb-3 price-tag">2,490 ₸</div>
+              <button type="button" class="btn btn-outline-brand w-100 mt-auto add-to-cart">Add</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="col-lg-4">
+      <div class="cart-widget">
+        <div class="cart-header">
+          <h3 class="h5 mb-0">Your Order</h3>
+        </div>
+        <div class="p-3">
+
+          <div id="cart-items" class="mb-2" style="max-height: 185px; overflow-y: auto;">
+            <p id="empty-cart-msg" class="text-muted text-center small mb-2">Your cart is empty</p>
+          </div>
+
+          <div class="border rounded-3 p-3 mb-3 bg-light">
+            <div class="btn-group w-100 mb-2" role="group" aria-label="Order Method">
+              <input type="radio" class="btn-check" name="order-method" id="method-delivery" value="delivery" checked>
+              <label class="btn btn-outline-brand btn-sm rounded-start-2 py-1 fw-semibold" for="method-delivery">Delivery (1,000 ₸)</label>
+
+              <input type="radio" class="btn-check" name="order-method" id="method-pickup" value="pickup">
+              <label class="btn btn-outline-brand btn-sm rounded-end-2 py-1 fw-semibold" for="method-pickup">Pickup (Free)</label>
+            </div>
+
+            <div id="pickup-note" class="small text-muted bg-white border rounded-2 px-2 py-1 mb-2 d-none">
+              Pickup: <strong class="text-dark">Uly dala 41, Astana</strong> (~30 min)
+            </div>
+
+            <div id="delivery-address-fields">
+              <input type="text" id="delivery-street" class="form-control form-control-sm rounded-2 mb-2"
+                     minlength="5" maxlength="100"
+                     placeholder="Street and building * (e.g. Uly dala 41)" autocomplete="street-address" required>
+
+              <div class="row g-2 mb-2">
+                <div class="col-6">
+                  <input type="text" id="delivery-apt" class="form-control form-control-sm rounded-2"
+                         maxlength="6"
+                         placeholder="Apt (optional)" autocomplete="address-line2">
+                </div>
+                <div class="col-6">
+                  <input type="text" id="delivery-floor" class="form-control form-control-sm rounded-2"
+                         maxlength="3"
+                         placeholder="Floor (optional)" autocomplete="off">
+                </div>
+              </div>
+            </div>
+
+            <input type="tel" id="delivery-phone" class="form-control form-control-sm rounded-2" maxlength="18"
+                   placeholder="Phone * +7 (701) 123-45-67" autocomplete="tel" required>
+          </div>
+
+          <div class="row g-2 mb-3" id="payment-methods">
+            <div class="col-6">
+              <label class="payment-box active w-100">
+                <input type="radio" name="payment-method" value="Visa" checked class="d-none">
+                <span class="pay-badge pay-visa">VISA</span>
+                <span>Visa</span>
+              </label>
+            </div>
+            <div class="col-6">
+              <label class="payment-box w-100">
+                <input type="radio" name="payment-method" value="Mastercard" class="d-none">
+                <span class="pay-badge pay-mc"><span class="mc-dot mc-red"></span><span class="mc-dot mc-orange"></span></span>
+                <span>Mastercard</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center small text-muted mb-1">
+            <span id="fee-label">Delivery fee:</span>
+            <span id="delivery-fee">0 ₸</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-bold">Total:</span>
+            <span id="cart-total" class="h5 fw-bold text-brand mb-0">0 ₸</span>
+          </div>
+
+          <button type="button" id="checkout-btn" class="btn btn-brand rounded-2 w-100 py-2">Pay &amp; Checkout</button>
+          <div id="checkout-message"></div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 </main>
 
 <footer>
   <div class="container">
-    <div class="row g-4">
+    <div class="row g-4 text-center text-md-start">
       <div class="col-md-4">
         <h4>Nesibe Cafe</h4>
         <p class="mb-0">Uly dala 41<br>Astana, 010238, Kazakhstan</p>
       </div>
       <div class="col-md-4">
         <h4>Hours</h4>
-        <ul class="list-unstyled mb-0">
-          <li>Mon - Thu: 10:00 - 23:00</li>
-          <li>Fri: 10:00 - 00:00</li>
-          <li>Sat: 11:00 - 00:00</li>
-          <li>Sun: 11:00 - 22:00</li>
-        </ul>
+        <p class="mb-0">Mon - Thu: 10:00 - 23:00<br>Fri - Sat: 10:00 - 00:00<br>Sun: 11:00 - 22:00</p>
       </div>
       <div class="col-md-4">
         <h4>Contact</h4>
-        <p class="mb-0">
-          <a href="tel:+77712537979">+7 (771) 253-79-79</a><br>
-          <a href="mailto:info@nesibe-cafe.kz">info@nesibe-cafe.kz</a>
-        </p>
+        <p class="mb-0"><a href="tel:+77712537979">+7 (771) 253-79-79</a><br><a href="mailto:info@nesibe-cafe.kz">info@nesibe-cafe.kz</a></p>
       </div>
     </div>
     <hr class="footer-divider">
-    <p class="text-center mb-0">&copy; <span id="year"></span> Nesibe Ethnic Cafe. All rights reserved.</p>
+    <div class="text-center small">&copy; <span id="year"></span> Nesibe Ethnic Cafe. All rights reserved.</div>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/menu.js"></script>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="js/menu.js" defer></script>
+<script src="js/widget.js" defer></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function () {
+    const DISH_SPECS = {
+      'Margherita': {
+        meta: ['450 g', '30 cm', '15 min'],
+        items: [
+          'Hand-stretched thin dough',
+          'Ripe tomato signature sauce',
+          'Stretchy mozzarella cheese',
+          'Fresh basil leaves & olive oil'
+        ]
+      },
+      'Pepperoni': {
+        meta: ['490 g', '30 cm', '15 min'],
+        items: [
+          'Crispy stone-baked dough',
+          'Spicy halal beef pepperoni',
+          'Melted mozzarella & oregano',
+          'Rich tomato base sauce'
+        ]
+      },
+      'Duck Pizza': {
+        meta: ['520 g', '30 cm', '20 min'],
+        items: [
+          'Tender roasted duck fillet',
+          'Sweet caramelized onions',
+          'Mozzarella & hoisin glaze',
+          'Hand-stretched thin crust'
+        ]
+      },
+      'Classic Burger': {
+        meta: ['340 g', 'Halal', '15 min'],
+        items: [
+          'Juicy 100% halal beef patty',
+          'Toasted butter brioche bun',
+          'Cheddar, lettuce, tomato, pickles',
+          'Signature house burger sauce'
+        ]
+      },
+      'Double Burger': {
+        meta: ['460 g', 'Halal', '15 min'],
+        items: [
+          'Two flame-grilled beef patties',
+          'Double melted cheddar cheese',
+          'Caramelized onion & pickles',
+          'Soft toasted brioche bun'
+        ]
+      },
+      'Horse Meat Burger': {
+        meta: ['350 g', 'Halal', '15 min'],
+        items: [
+          '100% local farm horse meat patty',
+          'Smoked cheese & pickled red onion',
+          'Crisp greens & signature sauce',
+          'Warm artisan brioche bun'
+        ]
+      },
+      'Double Horse Meat': {
+        meta: ['480 g', 'Halal', '18 min'],
+        items: [
+          'Double local farm horse meat',
+          'Double layer of smoked cheese',
+          'Pickled red onions & greens',
+          'Smoky house dressing on brioche'
+        ]
+      },
+      'Besbarmak': {
+        meta: ['650 g', 'Halal', '25 min'],
+        items: [
+          'Slow-boiled horse meat & beef',
+          'Artisanal kazy slices',
+          'Hand-rolled thin dough sheets',
+          'Fragrant onion broth (tuzdyk)'
+        ]
+      },
+      'Kuyrdak': {
+        meta: ['420 g', 'Halal', '20 min'],
+        items: [
+          'Pan-roasted fresh meat & liver',
+          'Golden fried farm potatoes',
+          'Sweet onions, garlic & herbs',
+          'Traditional Kazakh spices'
+        ]
+      },
+      'Baursak': {
+        meta: ['250 g', 'Fresh', '10 min'],
+        items: [
+          'Airy golden fried dough pillows',
+          'Prepared fresh on farm milk',
+          'Light, soft texture inside',
+          'Classic Kazakh tea companion'
+        ]
+      },
+      'Manti': {
+        meta: ['380 g', '5 pcs', '20 min'],
+        items: [
+          'Hand-chopped juicy beef filling',
+          'Sweet onions & black pepper',
+          'Thin steamed artisan dough',
+          'Served with cool sour cream'
+        ]
+      },
+      'Plov': {
+        meta: ['450 g', 'Halal', '15 min'],
+        items: [
+          'Fragrant rice cooked in kazan',
+          'Tender braised beef chunks',
+          'Yellow carrots, chickpeas & garlic',
+          'Traditional Eastern spices'
+        ]
+      },
+      'Shelpek': {
+        meta: ['200 g', 'Fresh', '10 min'],
+        items: [
+          'Thin golden fried flatbreads',
+          'Kneaded on fresh farm milk',
+          'Crisp edges & soft center',
+          'Served warm to the table'
+        ]
+      },
+      'Kazy': {
+        meta: ['220 g', 'Halal', '10 min'],
+        items: [
+          'Cured & boiled horse-meat delicacy',
+          'Seasoned with garlic & black pepper',
+          'Sliced & served chilled or warm',
+          'Garnished with sweet onion rings'
+        ]
+      },
+      'Moroccan Tea': {
+        meta: ['800 ml', 'Pot', '7 min'],
+        items: [
+          'Selected green leaf tea',
+          'Fresh mint, orange & lime',
+          'Cinnamon sticks & cloves',
+          'Natural wildflower honey'
+        ]
+      },
+      'Ginger Tea': {
+        meta: ['800 ml', 'Pot', '7 min'],
+        items: [
+          'Freshly grated ginger root',
+          'Juicy lemon & orange slices',
+          'Natural flower honey',
+          'Warming vitamin infusion'
+        ]
+      },
+      'Kazakh Tea': {
+        meta: ['800 ml', 'Pot', '5 min'],
+        items: [
+          'Strong black granulated & leaf tea',
+          'Warm natural farm milk',
+          'Rich amber color & aroma',
+          'Brewed in traditional style'
+        ]
+      },
+      'Samovar Tea': {
+        meta: ['2.5 L', 'Full Set', '10 min'],
+        items: [
+          'Hot brass samovar for groups',
+          'Assorted dried fruits & nuts',
+          'Navat crystal sugar & sweets',
+          'Traditional piala service'
+        ]
+      },
+      'Latte': {
+        meta: ['400 ml', 'Hot', '4 min'],
+        items: [
+          'Double shot 100% Arabica',
+          'Velvety steamed farm milk',
+          'Delicate silky microfoam',
+          'Mild creamy coffee balance'
+        ]
+      },
+      'Cappuccino': {
+        meta: ['400 ml', 'Hot', '4 min'],
+        items: [
+          'Rich dark-roast Arabica espresso',
+          'Dense airy steamed milk foam',
+          'Balanced coffee-to-milk ratio',
+          'Optional cinnamon or cocoa'
+        ]
+      },
+      'Americano': {
+        meta: ['400 ml', 'Hot', '3 min'],
+        items: [
+          'Freshly ground 100% Arabica',
+          'Double espresso + filtered water',
+          'Clean, bold aroma & crema',
+          'Zero sugar or additives'
+        ]
+      },
+      'Espresso': {
+        meta: ['300 ml', 'Hot', '3 min'],
+        items: [
+          '100% specialty Arabica beans',
+          'Rich golden crema layer',
+          'Deep chocolate-nutty notes',
+          'Quick energizing roast'
+        ]
+      },
+      'Lemonade': {
+        meta: ['1,000 ml', 'Cold', '5 min'],
+        items: [
+          'Freshly squeezed lemon juice',
+          'Crushed garden mint leaves',
+          'Sparkling chilled water & ice',
+          'Natural house fruit syrup'
+        ]
+      },
+      'Milkshake': {
+        meta: ['350 ml', 'Cold', '5 min'],
+        items: [
+          'Natural creamy vanilla ice cream',
+          'Chilled local farm milk',
+          'Whipped to thick airy texture',
+          'Topped with light cream'
+        ]
+      },
+      'Smoothie': {
+        meta: ['350 ml', 'Cold', '5 min'],
+        items: [
+          'Ripe seasonal berries & banana',
+          'Natural freshly pressed juice',
+          'No artificial syrups or sugar',
+          'Chilled vitamin blend'
+        ]
+      }
+    };
+
+    function attachHoverOverlay(card) {
+      if (!card || card.querySelector('.dish-hover-overlay')) return;
+      const titleEl = card.querySelector('h3');
+      const descEl = card.querySelector('p');
+      if (!titleEl) return;
+
+      const title = titleEl.textContent.trim();
+      const fallbackText = descEl ? descEl.textContent.trim() : '';
+
+      const spec = DISH_SPECS[title] || {
+        meta: [fallbackText || 'Fresh', 'Halal'],
+        items: fallbackText
+                ? fallbackText.split(',').map(s => s.trim().replace(/\.$/, '')).filter(Boolean)
+                : ['Prepared fresh to order', 'Locally sourced ingredients']
+      };
+
+      const overlay = document.createElement('div');
+      overlay.className = 'dish-hover-overlay';
+      overlay.innerHTML = `
+        <div>
+          <div class="dish-hover-title">${title}</div>
+          <div class="dish-hover-meta">
+            ${spec.meta.map(m => `<span class="dish-hover-badge">${m}</span>`).join('')}
+          </div>
+          <div class="dish-hover-label">Composition &amp; Info</div>
+          <ul class="dish-hover-list">
+            ${spec.items.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+      card.appendChild(overlay);
+    }
+
+    function initAllCards() {
+      document.querySelectorAll('main .premium-card').forEach(attachHoverOverlay);
+    }
+
+    initAllCards();
+
+    const dynamicContainer = document.getElementById('menu-items');
+    if (dynamicContainer) {
+      const observer = new MutationObserver(initAllCards);
+      observer.observe(dynamicContainer, { childList: true, subtree: true });
+    }
+  })();
+</script>
 </body>
 </html>

@@ -19,9 +19,9 @@
         <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
         <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-        <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="careers.html">Careers</a></li>
+        <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
       </ul>
     </div>
   </div>
@@ -29,45 +29,127 @@
 
 <header class="hero-section">
   <div class="container">
-    <h1>Nesibe Ethnic Cafe</h1>
-    <p class="lead mb-4">Authentic Kazakh & Central Asian Cuisine</p>
+    <h1 class="display-4 fw-bold mb-4">Welcome to Nesibe</h1>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
-      <a href="menu.html" class="btn btn-brand text-decoration-none">View Menu</a>
-      <a href="contact.html" class="btn btn-outline-brand bg-white text-decoration-none">Book a Table</a>
+      <a href="menu.html" class="btn btn-brand">View Menu</a>
+      <a href="booking.html" class="btn btn-outline-brand bg-white">Book a Table or VIP</a>
     </div>
   </div>
 </header>
 
-<main class="container overlap-container mb-5">
-  <div class="bg-brand-light mb-5">
-    <div class="row align-items-center">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <h2 class="display-6 text-brand">Welcome to Nesibe</h2>
-        <p class="lead">We serve authentic dishes prepared with fresh, locally-sourced ingredients.</p>
-        <p>From savory <em>besbarmak</em> to fragrant <strong>plov</strong>, every meal tells a story of the steppe. Our name reflects the warmth and generosity of our hospitality.</p>
+<section class="container overlap-container mb-5">
+  <div id="nesibePromoCarousel" class="carousel slide nesibe-promo-carousel mx-auto" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner rounded-4 shadow overflow-hidden">
+
+      <div class="carousel-item active">
+        <div class="promo-slide-card">
+          <div class="promo-slide-content">
+            <div class="promo-logo-badge mb-2">
+              <span class="promo-logo-mark">N</span>
+              <div>
+                <div class="promo-logo-title">NESIBE</div>
+                <div class="promo-logo-sub">ETHNIC CAFE</div>
+              </div>
+            </div>
+            <h2 class="promo-headline">
+              FREE DELIVERY<br>
+              AND 10% BONUS<br>
+              ON ORDERS FROM 8,000 ₸
+            </h2>
+            <p class="promo-subheadline mb-2">
+              ACROSS ASTANA CITY &amp; NEARBY DISTRICTS
+            </p>
+            <span class="promo-footnote">*Ask our call-center operators or check Menu for details</span>
+          </div>
+          <div class="promo-slide-media">
+            <img src="images/besbarmak.jpg" alt="Kazakh Besbarmak Free Delivery">
+          </div>
+        </div>
       </div>
-      <div class="col-lg-6">
-        <figure class="figure w-100 m-0">
-          <img src="../WEB_ASSIGNMENT45/images/cafe-interior.jpg" class="figure-img img-fluid rounded-4 shadow-lg" alt="Interior of Nesibe">
-          <figcaption class="figure-caption text-center mt-2">Our cozy interior with traditional decor</figcaption>
-        </figure>
+
+      <div class="carousel-item">
+        <div class="promo-slide-card">
+          <div class="promo-slide-content">
+            <div class="promo-logo-badge mb-2">
+              <span class="promo-logo-mark">N</span>
+              <div>
+                <div class="promo-logo-title">NESIBE</div>
+                <div class="promo-logo-sub">ETHNIC CAFE</div>
+              </div>
+            </div>
+            <h2 class="promo-headline">
+              PRIVATE VIP CABINS<br>
+              &amp; TRADITIONAL YURT HALLS<br>
+              FOR YOUR CELEBRATION
+            </h2>
+            <p class="promo-subheadline mb-2">
+              FROM 4 TO 50 GUESTS IN ASTANA
+            </p>
+            <span class="promo-footnote">*Deposit goes 100% toward your banquet order</span>
+          </div>
+          <div class="promo-slide-media">
+            <img src="images/space-vip.jpg" alt="Private VIP Cabins">
+          </div>
+        </div>
       </div>
+
+      <div class="carousel-item">
+        <div class="promo-slide-card">
+          <div class="promo-slide-content">
+            <div class="promo-logo-badge mb-2">
+              <span class="promo-logo-mark">N</span>
+              <div>
+                <div class="promo-logo-title">NESIBE</div>
+                <div class="promo-logo-sub">ETHNIC CAFE</div>
+              </div>
+            </div>
+            <h2 class="promo-headline">
+              HOT BAURSAK SET<br>
+              AS A COMPLIMENT<br>
+              WITH EVERY SAMOVAR TEA
+            </h2>
+            <p class="promo-subheadline mb-2">
+              DAILY FROM 14:00 TO 18:00 AT ULY DALA 41
+            </p>
+            <span class="promo-footnote">*Available for dine-in guests in Main Hall &amp; Terrace</span>
+          </div>
+          <div class="promo-slide-media">
+            <img src="images/baursak.jpg" alt="Samovar Tea Ceremony">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev promo-arrow promo-arrow-prev" type="button" data-bs-target="#nesibePromoCarousel" data-bs-slide="prev" aria-label="Previous slide">
+      <span aria-hidden="true">&#8249;</span>
+    </button>
+    <button class="carousel-control-next promo-arrow promo-arrow-next" type="button" data-bs-target="#nesibePromoCarousel" data-bs-slide="next" aria-label="Next slide">
+      <span aria-hidden="true">&#8250;</span>
+    </button>
+
+    <div class="carousel-indicators promo-indicators">
+      <button type="button" data-bs-target="#nesibePromoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#nesibePromoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#nesibePromoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
   </div>
+</section>
 
+<main class="container mb-5">
   <h2 class="text-center mb-4 text-brand">Why Choose Nesibe?</h2>
   <div class="row g-4 mb-5">
-    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Authentic Recipes</h3><p class="small text-muted">Passed down through generations of Kazakh families.</p></div></div>
-    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Fresh Ingredients</h3><p class="small text-muted">Sourced daily from local farms in the Almaty region.</p></div></div>
-    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Traditional Atmosphere</h3><p class="small text-muted">Decorated with handmade textiles and wooden crafts.</p></div></div>
-    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Friendly Service</h3><p class="small text-muted">Staff speaks Kazakh, Russian, and English fluently.</p></div></div>
+    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Authentic Recipes</h3><p class="small text-muted mb-0">Passed down through generations of Kazakh families.</p></div></div>
+    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Fresh Ingredients</h3><p class="small text-muted mb-0">Sourced daily from local farms across Kazakhstan.</p></div></div>
+    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Traditional Atmosphere</h3><p class="small text-muted mb-0">Decorated with handmade textiles and wooden crafts.</p></div></div>
+    <div class="col-md-3"><div class="premium-card text-center p-4"><h3 class="h5 text-brand">Friendly Service</h3><p class="small text-muted mb-0">Staff speaks Kazakh, Russian, and English fluently.</p></div></div>
   </div>
 
-  <div class="row g-5">
-    <div class="col-lg-6">
-      <h2 class="mb-4 text-brand">Opening Hours</h2>
+  <div class="row justify-content-center mb-5">
+    <div class="col-lg-8">
+      <h2 class="text-center mb-4 text-brand">Opening Hours</h2>
       <div class="table-responsive table-premium">
-        <table class="table mb-0">
+        <table class="table mb-0 text-center">
           <thead><tr><th>Day</th><th>Opening</th><th>Closing</th></tr></thead>
           <tbody>
           <tr><td>Mon - Thu</td><td>10:00</td><td>23:00</td></tr>
@@ -78,47 +160,56 @@
         </table>
       </div>
     </div>
-    <div class="col-lg-6">
-      <h2 class="mb-4 text-brand">Find Us</h2>
-      <div class="premium-card p-4 bg-primary text-white" style="background: linear-gradient(135deg, var(--brand-dark), var(--brand-primary));">
-        <address class="fs-5 mb-4"><strong>Nesibe Ethnic Cafe</strong><br>Uly dala 41<br>Astana, 010238, Kazakhstan</address>
-        <div class="row g-3">
-          <div class="col-6"><p class="small text-warning mb-1">Call us:</p><a href="tel:+77271234567" class="text-white text-decoration-none fw-bold">+7 (727) 123-45-67</a></div>
-          <div class="col-6"><p class="small text-warning mb-1">Email:</p><a href="mailto:info@nesibe-cafe.kz" class="text-white text-decoration-none fw-bold">info@nesibe-cafe.kz</a></div>
+  </div>
+
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-10">
+      <h2 class="text-center mb-4 text-brand">Our Location on 2GIS</h2>
+      <div class="premium-card p-2 p-md-3">
+        <div class="position-relative rounded-4 overflow-hidden" style="height: 430px;">
+          <iframe
+                  src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A51.098057%2C%22lon%22%3A71.41682%2C%22zoom%22%3A17%7D%2C%22opt%22%3A%7B%22city%22%3A%22astana%22%7D%2C%22org%22%3A%2270000001109879464%22%7D"
+                  width="100%"
+                  height="100%"
+                  style="border: 0;"
+                  allowfullscreen
+                  loading="lazy"
+                  title="Nesibe Ethnic Cafe on 2GIS Map">
+          </iframe>
+          <a href="https://2gis.kz/astana/firm/70000001109879464"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="btn btn-sm btn-light fw-bold shadow position-absolute bottom-0 start-0 m-3 rounded-pill px-3">
+            Open in 2GIS
+          </a>
         </div>
-        <a href="contact.html" class="btn btn-warning mt-4 text-dark fw-bold rounded-pill">Get Directions</a>
       </div>
     </div>
   </div>
-
-  <div id="dish-of-day" class="row justify-content-center mt-5"></div>
-
-  <!-- Plain JavaScript -->
-  <script src="js/app.js" defer></script>
 </main>
 
 <footer>
   <div class="container">
     <div class="row g-4 text-center text-md-start">
       <div class="col-md-4">
-        <h4 class="font-playfair">Nesibe Cafe</h4>
-        <p>Uly dala 41<br>Astana, 010238, Kazakhstan</p>
+        <h4>Nesibe Cafe</h4>
+        <p class="mb-0">Uly dala 41<br>Astana, 010238, Kazakhstan</p>
       </div>
       <div class="col-md-4">
-        <h4 class="font-playfair">Hours</h4>
-        <p>Mon - Thu: 10:00 - 23:00<br>Fri - Sat: 10:00 - 00:00<br>Sun: 11:00 - 22:00</p>
+        <h4>Hours</h4>
+        <p class="mb-0">Mon - Thu: 10:00 - 23:00<br>Fri - Sat: 10:00 - 00:00<br>Sun: 11:00 - 22:00</p>
       </div>
       <div class="col-md-4">
-        <h4 class="font-playfair">Contact</h4>
-        <p><a href="tel:+77271234567">+7 (771) 253-79-79</a><br><a href="mailto:info@nesibe-cafe.kz">info@nesibe-cafe.kz</a></p>
+        <h4>Contact</h4>
+        <p class="mb-0"><a href="tel:+77712537979">+7 (771) 253-79-79</a><br><a href="mailto:info@nesibe-cafe.kz">info@nesibe-cafe.kz</a></p>
       </div>
     </div>
     <hr class="footer-divider">
-    <div class="text-center small">
-      &copy; 2024 Nesibe Ethnic Cafe. Premium Design Edition.
-    </div>
+    <div class="text-center small">&copy; <span id="year"></span> Nesibe Ethnic Cafe. All rights reserved.</div>
   </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/widget.js" defer></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

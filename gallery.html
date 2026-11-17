@@ -19,9 +19,9 @@
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
         <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         <li class="nav-item"><a class="nav-link active" href="gallery.html">Gallery</a></li>
-        <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="careers.html">Careers</a></li>
+        <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
       </ul>
     </div>
   </div>
@@ -29,60 +29,138 @@
 
 <header class="hero-section">
   <div class="container">
-    <h1>Gallery</h1>
-    <p class="lead">A Visual Journey Through Our Cafe</p>
+    <h1 class="display-4 fw-bold">Gallery</h1>
+    <p class="lead mb-0">A Visual Journey Through Our Cafe</p>
   </div>
 </header>
 
 <main class="container overlap-container mb-5">
-
-
-  <h2 class="mb-4 text-brand">Our Dishes</h2>
-  <div class="row g-4 mb-5">
-    <div class="col-md-4">
-      <div class="premium-card"><img src="../WEB_ASSIGNMENT45/images/pizza.jpg" class="card-img-top" alt="Pizza"><div class="card-body"><h3 class="h5">Signature Pizzas</h3><p class="card-text text-muted small">Hand-stretched dough, fresh ingredients. Our Duck Pizza is a fusion favorite.</p></div></div>
-    </div>
-    <div class="col-md-4">
-      <div class="premium-card"><img src="../WEB_ASSIGNMENT45/images/burger.jpg" class="card-img-top" alt="Burger"><div class="card-body"><h3 class="h5">Traditional Burgers</h3><p class="card-text text-muted small">100% horse meat from local farms, ground fresh daily.</p></div></div>
-    </div>
-    <div class="col-md-4">
-      <div class="premium-card"><img src="../WEB_ASSIGNMENT45/images/dessert.jpg" class="card-img-top" alt="Dessert"><div class="card-body"><h3 class="h5">Sweet Endings</h3><p class="card-text text-muted small">Hand-made chak-chak with warm honey, prepared every morning.</p></div></div>
-    </div>
-  </div>
-
   <div class="bg-brand-light mb-5">
-    <h2 class="mb-4 text-brand">Our Interior</h2>
+    <h2 class="mb-4 text-brand">Our Interior &amp; Kids Playroom</h2>
     <div class="row align-items-center g-4">
-      <div class="col-md-6"><img src="../WEB_ASSIGNMENT45/images/cafe-interior.jpg" class="img-fluid rounded-4 shadow" alt="Interior"></div>
-      <div class="col-md-6">
+      <div class="col-lg-6">
+        <div id="interiorGalleryCarousel" class="carousel slide interior-carousel-wrap" data-bs-ride="carousel" data-bs-interval="4000" data-bs-pause="false">
+          <div class="carousel-inner rounded-4 shadow">
+            <div class="carousel-item active">
+              <img src="images/cafe-interior.jpg" class="d-block w-100 interior-carousel-img" alt="Main Ethnic Hall">
+              <div class="interior-caption-badge">1 / 4 · Main Hall &amp; Shanyrak</div>
+            </div>
+            <div class="carousel-item">
+              <img src="images/space-vip.jpg" class="d-block w-100 interior-carousel-img" alt="Private VIP Cabins">
+              <div class="interior-caption-badge">2 / 4 · Private VIP Cabins</div>
+            </div>
+            <div class="carousel-item">
+              <img src="images/space-banquet.jpg" class="d-block w-100 interior-carousel-img" alt="Banquet and Yurt Hall">
+              <div class="interior-caption-badge">3 / 4 · Banquet &amp; Yurt Hall</div>
+            </div>
+            <div class="carousel-item">
+              <img src="images/playroom.jpg" onerror="this.onerror=null;this.src='images/space-main.jpg';" class="d-block w-100 interior-carousel-img" alt="Kids Playroom">
+              <div class="interior-caption-badge">4 / 4 · Kids Playroom</div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#interiorGalleryCarousel" data-bs-slide="prev" aria-label="Previous photo">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#interiorGalleryCarousel" data-bs-slide="next" aria-label="Next photo">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="row g-2 mt-2" id="interiorThumbs">
+          <div class="col-3">
+            <button type="button" class="interior-thumb-btn active" data-bs-target="#interiorGalleryCarousel" data-bs-slide-to="0" aria-label="Main Hall">
+              <img src="images/cafe-interior.jpg" alt="Main Hall">
+              <span>Main Hall</span>
+            </button>
+          </div>
+          <div class="col-3">
+            <button type="button" class="interior-thumb-btn" data-bs-target="#interiorGalleryCarousel" data-bs-slide-to="1" aria-label="VIP Cabins">
+              <img src="images/space-vip.jpg" alt="VIP Cabins">
+              <span>VIP Cabins</span>
+            </button>
+          </div>
+          <div class="col-3">
+            <button type="button" class="interior-thumb-btn" data-bs-target="#interiorGalleryCarousel" data-bs-slide-to="2" aria-label="Yurt Hall">
+              <img src="images/space-banquet.jpg" alt="Yurt Hall">
+              <span>Yurt Hall</span>
+            </button>
+          </div>
+          <div class="col-3">
+            <button type="button" class="interior-thumb-btn" data-bs-target="#interiorGalleryCarousel" data-bs-slide-to="3" aria-label="Playroom">
+              <img src="images/playroom.jpg" onerror="this.onerror=null;this.src='images/space-main.jpg';" alt="Kids Playroom">
+              <span>Playroom</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
         <p class="lead">Modern comfort meets traditional Kazakh aesthetics.</p>
-        <ul class="list-unstyled text-muted">
+        <ul class="list-unstyled text-muted mb-3">
           <li class="mb-2">✓ Hand-embroidered tekemet on walls</li>
           <li class="mb-2">✓ Carved wooden tables</li>
           <li class="mb-2">✓ Shanyrak ceiling decorations</li>
-          <li class="mb-2">✓ Cozy fireplace corner</li>
-          <li>✓ Mountain-view terrace</li>
+          <li class="mb-2">✓ Cozy fireplace corner &amp; VIP Cabins</li>
+          <li class="mb-2">✓ Scenic terrace in Astana</li>
+          <li>✓ Bright &amp; safe <strong>Kids Playroom</strong> with soft play zone and games</li>
         </ul>
-        <a href="contact.html" class="btn btn-brand d-inline-block text-decoration-none mt-3">Visit Us</a>
+        <a href="booking.html" class="btn btn-brand">Book a Space</a>
       </div>
     </div>
   </div>
 
-  <h2 class="mb-4 text-brand">Our Drinks</h2>
+  <h2 class="mb-4 text-brand">Our Dishes</h2>
   <div class="row g-4 mb-5">
-    <div class="col-md-6">
-      <div class="premium-card"><img src="../WEB_ASSIGNMENT45/images/tea-ceremony.jpg" class="card-img-top" alt="Tea"><div class="card-body"><h3 class="h5">Tea Ceremony</h3><p class="card-text text-muted small">15+ varieties from classic black to our house Nesibe blend. Samovar experience for groups.</p></div></div>
+    <div class="col-md-4">
+      <div class="premium-card"><img src="images/pizza.jpg" class="card-img-top" alt="Pizza"><div class="card-body"><h3 class="h5 text-brand">Signature Pizzas</h3><p class="card-text text-muted small mb-0">Hand-stretched dough, fresh ingredients. Our Duck Pizza is a fusion favorite.</p></div></div>
     </div>
-    <div class="col-md-6">
-      <div class="premium-card"><img src="../WEB_ASSIGNMENT45/images/kumis.jpg" class="card-img-top" alt="Kumis"><div class="card-body"><h3 class="h5">National Drinks</h3><p class="card-text text-muted small">Kumis and shubat from local Almaty farms. Rich in probiotics, unique tangy flavor.</p></div></div>
+    <div class="col-md-4">
+      <div class="premium-card"><img src="images/burger.jpg" class="card-img-top" alt="Burger"><div class="card-body"><h3 class="h5 text-brand">Traditional Burgers</h3><p class="card-text text-muted small mb-0">100% horse meat from local farms, ground fresh daily.</p></div></div>
+    </div>
+    <div class="col-md-4">
+      <div class="premium-card"><img src="images/dessert.jpg" class="card-img-top" alt="Dessert"><div class="card-body"><h3 class="h5 text-brand">Sweet Endings</h3><p class="card-text text-muted small mb-0">Hand-made chak-chak with warm honey, prepared every morning.</p></div></div>
     </div>
   </div>
 
-  <div class="text-center mb-5">
-    <h2 class="mb-4 text-brand">Our Team</h2>
-    <img src="../WEB_ASSIGNMENT45/images/team.jpg" class="img-fluid rounded-4 shadow mb-4" style="max-height: 400px; width: 100%; object-fit: cover;" alt="Team">
-    <p class="lead">12 dedicated professionals sharing a passion for hospitality.</p>
-    <a href="about.html" class="btn btn-outline-brand text-decoration-none">Meet the Team</a>
+  <h2 class="mb-4 text-brand">Photos</h2>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="premium-card">
+        <img src="images/photo-shanyrak.jpg" onerror="this.onerror=null;this.src='images/cafe-interior.jpg';" class="card-img-top" alt="Shanyrak Arch Photo Zone">
+        <div class="card-body">
+          <h3 class="h5 text-brand">Shanyrak &amp; Lantern Arch</h3>
+          <p class="card-text text-muted small mb-0">Warm golden lighting under a carved wooden shanyrak — an iconic backdrop for family portraits and celebration photos.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="premium-card">
+        <img src="images/photo-yurt.jpg" onerror="this.onerror=null;this.src='images/space-banquet.jpg';" class="card-img-top" alt="Nomadic Yurt Photo Zone">
+        <div class="card-body">
+          <h3 class="h5 text-brand">Nomadic Yurt &amp; Tekemet Corner</h3>
+          <p class="card-text text-muted small mb-0">Handwoven felt carpets, traditional ornaments, and authentic Kazakh props for atmospheric cultural snapshots.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="premium-card">
+        <img src="images/photo-dastarkhan.jpg" onerror="this.onerror=null;this.src='images/space-vip.jpg';" class="card-img-top" alt="Royal Dastarkhan Lounge">
+        <div class="card-body">
+          <h3 class="h5 text-brand">Royal Dastarkhan Lounge</h3>
+          <p class="card-text text-muted small mb-0">Velvet cushions, antique brass samovars, and embroidered textiles designed for cozy group photos with friends.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="premium-card">
+        <img src="images/photo-petroglyph.jpg" onerror="this.onerror=null;this.src='images/space-main.jpg';" class="card-img-top" alt="Turkic Petroglyph Art Wall">
+        <div class="card-body">
+          <h3 class="h5 text-brand">Turkic Petroglyph Art Wall</h3>
+          <p class="card-text text-muted small mb-0">Illuminated stone-textured wall featuring ancient Tamgaly motifs — a stylish spot for memorable evening shots.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -90,24 +168,33 @@
   <div class="container">
     <div class="row g-4 text-center text-md-start">
       <div class="col-md-4">
-        <h4 class="font-playfair">Nesibe Cafe</h4>
-        <p>Uly dala 41<br>Astana, 010238, Kazakhstan</p>
+        <h4>Nesibe Cafe</h4>
+        <p class="mb-0">Uly dala 41<br>Astana, 010238, Kazakhstan</p>
       </div>
       <div class="col-md-4">
-        <h4 class="font-playfair">Hours</h4>
-        <p>Mon - Thu: 10:00 - 23:00<br>Fri - Sat: 10:00 - 00:00<br>Sun: 11:00 - 22:00</p>
+        <h4>Hours</h4>
+        <p class="mb-0">Mon - Thu: 10:00 - 23:00<br>Fri - Sat: 10:00 - 00:00<br>Sun: 11:00 - 22:00</p>
       </div>
       <div class="col-md-4">
-        <h4 class="font-playfair">Contact</h4>
-        <p><a href="tel:+77271234567">+7 (727) 123-45-67</a><br><a href="mailto:info@nesibe-cafe.kz">info@nesibe-cafe.kz</a></p>
+        <h4>Contact</h4>
+        <p class="mb-0"><a href="tel:+77712537979">+7 (771) 253-79-79</a><br><a href="mailto:info@nesibe-cafe.kz">info@nesibe-cafe.kz</a></p>
       </div>
     </div>
     <hr class="footer-divider">
-    <div class="text-center small">
-      &copy; 2024 Nesibe Ethnic Cafe. Premium Design Edition.
-    </div>
+    <div class="text-center small">&copy; <span id="year"></span> Nesibe Ethnic Cafe. All rights reserved.</div>
   </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/widget.js" defer></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const interiorCarousel = document.getElementById('interiorGalleryCarousel');
+  const thumbBtns = document.querySelectorAll('#interiorThumbs .interior-thumb-btn');
+  if (interiorCarousel && thumbBtns.length) {
+    interiorCarousel.addEventListener('slide.bs.carousel', function (e) {
+      thumbBtns.forEach((btn, idx) => btn.classList.toggle('active', idx === e.to));
+    });
+  }
+</script>
 </body>
 </html>

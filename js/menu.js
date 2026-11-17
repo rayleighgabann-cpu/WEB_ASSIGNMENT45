@@ -1,9 +1,10 @@
-// jQuery 3.7.1 — Menu: фильтр, поиск, корзина (localStorage), промокод, checkout.
+// jQuery 3.7.1 — Menu: фильтр, поиск, корзина (localStorage), доставка/самовывоз, онлайн-оплата, авто +7.
 $(function () {
 
     // ---------- DATA ----------
     const CART_KEY = 'nesibe_cart';
     const MAX_QTY = 20;
+    const DELIVERY_FEE = 1000;
     const PROMOS = { NESIBE10: 10, SALE10: 10 };
     const PHONE_RE = /^\+?[0-9\s\-()]+$/;
 
@@ -36,6 +37,22 @@ $(function () {
     function clearError($field, markValid) {
         $field.removeClass('is-invalid').next('.error-msg').remove();
         $field.toggleClass('is-valid', Boolean(markValid));
+    }
+    function formatKzPhone(raw) {
+        let digits = raw.replace(/\D/g, '');
+        if (!digits) return '';
+        if (digits.startsWith('8')) {
+            digits = '7' + digits.slice(1);
+        } else if (!digits.startsWith('7')) {
+            digits = '7' + digits;
+        }
+        digits = digits.slice(0, 11);
+
+        if (digits.length === 1) return '+7 ';
+        if (digits.length <= 4) return '+7 (' + digits.slice(1);
+        if (digits.length <= 7) return '+7 (' + digits.slice(1, 4) + ') ' + digits.slice(4);
+        if (digits.length <= 9) return '+7 (' + digits.slice(1, 4) + ') ' + digits.slice(4, 7) + '-' + digits.slice(7);
+        return '+7 (' + digits.slice(1, 4) + ') ' + digits.slice(4, 7) + '-' + digits.slice(7, 9) + '-' + digits.slice(9, 11);
     }
     function validateSearch(value) {
         const v = value.trim();
@@ -76,38 +93,48 @@ $(function () {
     }
     function validatePhone(value) {
         const v = value.trim();
-        if (!v) return 'Please enter your phone number.';
+        if (!v || v === '+7') return 'Please enter your phone number.';
         if (!PHONE_RE.test(v) || /--|\(\)/.test(v)) {
-            return 'Enter a valid phone, e.g. +7 701 123 45 67.';
-        }
-        const openParens = (v.match(/\(/g) || []).length;
-        const closeParens = (v.match(/\)/g) || []).length;
-        if (openParens !== closeParens || (openParens > 0 && !/\(\d{2,5}\)/.test(v))) {
-            return 'Check parentheses in phone number, e.g. +7 (701) 123-45-67.';
+            return 'Enter a valid phone, e.g. +7 (701) 123-45-67.';
         }
         const digits = v.replace(/\D/g, '');
-        let formatOk = false;
-        if (v.startsWith('+7') || (!v.startsWith('+') && digits.length === 11 && (digits.startsWith('7') || digits.startsWith('8')))) {
-            formatOk = /^[78]7\d{9}$/.test(digits);
-        } else if (!v.startsWith('+') && digits.length === 10 && digits.startsWith('7')) {
-            formatOk = /^7\d{9}$/.test(digits);
-        } else if (v.startsWith('+')) {
-            formatOk = /^[1-9]\d{9,14}$/.test(digits);
-        }
-        if (!formatOk || /^(\d)\1{6}$/.test(digits.slice(-7))) {
-            return 'Enter a valid phone, e.g. +7 701 123 45 67.';
+        if (!/^7[67]\d{9}$/.test(digits) || /^(\d)\1{6}$/.test(digits.slice(-7))) {
+            return 'Enter a valid Kazakhstan phone, e.g. +7 (701) 123-45-67.';
         }
         return '';
     }
     function cartCount() {
         return Object.keys(cart).reduce(function (sum, key) { return sum + cart[key].qty; }, 0);
     }
+    function getOrderMethod() {
+        return $('input[name="order-method"]:checked').val() || 'delivery';
+    }
+    function getPaymentMethod() {
+        return $('input[name="payment-method"]:checked').val() || 'Visa';
+    }
 
     // ---------- 1. КОРЗИНА В localStorage ----------
     function loadCart() {
         try {
             const saved = JSON.parse(localStorage.getItem(CART_KEY));
-            if (saved && typeof saved === 'object') cart = saved;
+            if (saved && typeof saved === 'object') {
+                const sanitized = {};
+                Object.keys(saved).forEach(function (key) {
+                    const entry = saved[key];
+                    if (
+                        entry &&
+                        typeof entry.name === 'string' &&
+                        typeof entry.price === 'number' &&
+                        entry.price > 0 &&
+                        Number.isInteger(entry.qty) &&
+                        entry.qty >= 1 &&
+                        entry.qty <= MAX_QTY
+                    ) {
+                        sanitized[key] = entry;
+                    }
+                });
+                cart = sanitized;
+            }
         } catch (e) { cart = {}; }
     }
     function saveCart() {
@@ -124,7 +151,7 @@ $(function () {
                         .append($('<h3 class="h6 text-brand"></h3>').text(dish.name))
                         .append($('<div class="small text-muted mb-2"></div>').text(dish.desc))
                         .append($('<div class="fw-bold small mb-3 price-tag"></div>').text(dish.price))
-                        .append('<button class="btn btn-sm btn-outline-brand w-100 mt-auto add-to-cart">Add</button>')
+                        .append('<button type="button" class="btn btn-sm btn-outline-brand w-100 mt-auto add-to-cart">Add</button>')
                 );
             $('<div class="col-md-6 col-lg-4 mb-4" data-cat="' + dish.category + '"></div>')
                 .append($card)
@@ -132,7 +159,7 @@ $(function () {
         });
     }
 
-    // ---------- 3. ФИЛЬТР + ПОИСК (по названию и описанию) ----------
+    // ---------- 3. ФИЛЬТР + ПОИСК ----------
     function applyFilter() {
         const total = $('.premium-card').length;
         let matched = 0;
@@ -169,7 +196,7 @@ $(function () {
         filter.cat = $(this).data('category');
         applyFilter();
     });
-    $('#menu-search').on('input', function () {
+    $('#menu-search').on('input search', function () {
         const $search = $(this);
         const raw = $search.val();
         const err = validateSearch(raw);
@@ -184,13 +211,13 @@ $(function () {
 
     // ---------- 4. ОТРИСОВКА КОРЗИНЫ ----------
     function showPromoNote(discount) {
-        if (discountPct === 0) return;
+        const $res = $('#promo-result');
+        if (!$res.length || discountPct === 0) return;
         let text = 'Discount of ' + discountPct + '% applied!';
         if (discount > 0) text += ' Savings: ' + discount.toLocaleString('en-US') + ' ₸';
-        $('#promo-result').empty().append($('<span class="text-success fw-bold"></span>').text(text));
+        $res.empty().append($('<span class="text-success fw-bold"></span>').text(text));
     }
 
-    // Элемент собирается через jQuery + .text(): кавычка в названии ничего не сломает
     function buildCartEntry(item) {
         const itemTotal = item.price * item.qty;
         const $info = $('<div></div>')
@@ -200,10 +227,10 @@ $(function () {
                 ' = ' + itemTotal.toLocaleString('en-US') + ' ₸'));
 
         const $controls = $('<div class="d-flex align-items-center gap-1"></div>')
-            .append('<button class="btn btn-sm btn-outline-secondary decrease-qty px-2 py-0 fw-bold">-</button>')
+            .append('<button type="button" class="btn btn-sm btn-outline-secondary decrease-qty px-2 py-0 fw-bold">-</button>')
             .append($('<span class="fw-bold px-1 small"></span>').text(item.qty))
-            .append('<button class="btn btn-sm btn-outline-brand increase-qty px-2 py-0 fw-bold">+</button>')
-            .append('<button class="btn btn-sm btn-outline-danger remove-item ms-1 px-2 py-0 fw-bold">×</button>');
+            .append('<button type="button" class="btn btn-sm btn-outline-brand increase-qty px-2 py-0 fw-bold">+</button>')
+            .append('<button type="button" class="btn btn-sm btn-outline-danger remove-item ms-1 px-2 py-0 fw-bold">×</button>');
 
         return $('<div class="cart-entry d-flex justify-content-between align-items-center mb-3 border-bottom pb-2"></div>')
             .data('name', item.name)
@@ -216,9 +243,12 @@ $(function () {
         $container.find('.cart-entry').remove();
         const keys = Object.keys(cart);
         let subtotal = 0;
+        const method = getOrderMethod();
 
         if (keys.length === 0) {
             $('#empty-cart-msg').fadeIn(200);
+            $('#fee-label').text(method === 'pickup' ? 'Pickup fee:' : 'Delivery fee:');
+            $('#delivery-fee').text(method === 'pickup' ? 'Free' : '0 ₸');
             $('#cart-total').text('0 ₸');
             showPromoNote(0);
             saveCart();
@@ -233,7 +263,12 @@ $(function () {
         });
 
         const discount = Math.round(subtotal * discountPct / 100);
-        $('#cart-total').text((subtotal - discount).toLocaleString('en-US') + ' ₸');
+        const fee = method === 'delivery' ? DELIVERY_FEE : 0;
+        const grandTotal = subtotal - discount + fee;
+
+        $('#fee-label').text(method === 'pickup' ? 'Pickup fee:' : 'Delivery fee:');
+        $('#delivery-fee').text(method === 'pickup' ? 'Free (0 ₸)' : fee.toLocaleString('en-US') + ' ₸');
+        $('#cart-total').text(grandTotal.toLocaleString('en-US') + ' ₸');
         showPromoNote(discount);
         saveCart();
     }
@@ -258,7 +293,6 @@ $(function () {
         if (!name || isNaN(price)) return;
         if (!addDish(name, price)) return;
 
-        // Кнопка НЕ блокируется: повторный клик добавляет ещё одну порцию
         const $btn = $(this);
         clearTimeout($btn.data('flashTimer'));
         if (!$btn.data('origText')) $btn.data('origText', $btn.text());
@@ -284,11 +318,30 @@ $(function () {
         if (cart[name]) { delete cart[name]; renderCart(); }
     });
 
-    // ---------- 6. ПРОМОКОД ----------
+    // ---------- 6. ДОСТАВКА / САМОВЫВОЗ И СПОСОБ ОПЛАТЫ ----------
+    $('input[name="order-method"]').on('change', function () {
+        const isPickup = getOrderMethod() === 'pickup';
+        $('#delivery-address-fields').toggleClass('d-none', isPickup);
+        $('#pickup-note').toggleClass('d-none', !isPickup);
+        if (isPickup) {
+            clearError($('#delivery-street'), false);
+            clearError($('#delivery-apt'), false);
+            clearError($('#delivery-floor'), false);
+        }
+        renderCart();
+    });
+
+    $('#payment-methods').on('change', 'input[name="payment-method"]', function () {
+        $('#payment-methods .payment-box, #payment-methods .payment-pill').removeClass('active');
+        $(this).closest('.payment-box, .payment-pill').addClass('active');
+    });
+
+    // ---------- 7. ПРОМОКОД (если присутствует в DOM) ----------
     function applyPromoCode() {
         const $input = $('#promo-input');
         const $result = $('#promo-result');
-        const code = $input.val().trim().toUpperCase();
+        if (!$input.length) return;
+        const code = ($input.val() || '').trim().toUpperCase();
 
         if (code === '') {
             discountPct = 0; renderCart();
@@ -317,14 +370,13 @@ $(function () {
             e.preventDefault();
             applyPromoCode();
         }
-    });
-    $('#promo-input').on('input', function () {
+    }).on('input', function () {
         $(this).removeClass('is-invalid is-valid');
         $('#promo-result').empty();
         if (discountPct !== 0) { discountPct = 0; renderCart(); }
     });
 
-    // ---------- 7. CHECKOUT ----------
+    // ---------- 8. ВАЛИДАЦИЯ ДОСТАВКИ И CHECKOUT ----------
     const deliveryValidators = {
         'delivery-street': validateStreet,
         'delivery-apt': validateApt,
@@ -345,7 +397,7 @@ $(function () {
         return true;
     }
 
-    $('#delivery-street, #delivery-apt, #delivery-floor, #delivery-phone')
+    $('#delivery-street, #delivery-apt, #delivery-floor')
         .on('input', function () {
             const $field = $(this);
             if ($field.hasClass('is-invalid') || $field.hasClass('is-valid')) {
@@ -359,7 +411,35 @@ $(function () {
             }
         });
 
-    // Сообщение остаётся на странице: адрес и сумму нужно успеть прочитать
+    $('#delivery-phone')
+        .on('focus', function () {
+            if (!$(this).val().trim()) {
+                $(this).val('+7 ');
+            }
+        })
+        .on('keydown', function (e) {
+            if ((e.key === 'Backspace' || e.key === 'Delete') && $(this).val().length <= 3) {
+                e.preventDefault();
+                $(this).val('+7 ');
+            }
+        })
+        .on('input', function () {
+            const $field = $(this);
+            $field.val(formatKzPhone($field.val()));
+            if ($field.hasClass('is-invalid') || $field.hasClass('is-valid')) {
+                validateDeliveryField($field, true);
+            }
+        })
+        .on('blur', function () {
+            const $field = $(this);
+            if ($field.val().trim() === '+7') {
+                $field.val('');
+            }
+            if ($field.val().trim() !== '' || $field.hasClass('is-invalid')) {
+                validateDeliveryField($field, true);
+            }
+        });
+
     function showCheckoutMessage(type, title, text) {
         const $alert = $('<div class="alert checkout-alert mt-3"></div>')
             .addClass(type).hide()
@@ -371,12 +451,17 @@ $(function () {
 
     $('#checkout-btn').on('click', function (e) {
         e.preventDefault();
-        const $fields = [
-            $('#delivery-street'),
-            $('#delivery-apt'),
-            $('#delivery-floor'),
-            $('#delivery-phone')
-        ];
+
+        if (Object.keys(cart).length === 0) {
+            showCheckoutMessage('alert-warning', 'Your cart is empty!', 'Please add dishes to your order.');
+            return;
+        }
+
+        const isPickup = getOrderMethod() === 'pickup';
+        const $fields = isPickup
+            ? [$('#delivery-phone')]
+            : [$('#delivery-street'), $('#delivery-apt'), $('#delivery-floor'), $('#delivery-phone')];
+
         let firstInvalid = null;
         $.each($fields, function (i, $f) {
             $f.val($f.val().trim());
@@ -384,36 +469,43 @@ $(function () {
                 firstInvalid = $f;
             }
         });
-        if (Object.keys(cart).length === 0) {
-            showCheckoutMessage('alert-warning', 'Your cart is empty!', 'Please add dishes to your order.');
-            if (firstInvalid) firstInvalid.trigger('focus');
-            return;
-        }
+
         if (firstInvalid) {
             firstInvalid.trigger('focus');
             return;
         }
 
-        const $street = $('#delivery-street');
-        const $phone = $('#delivery-phone');
         const totalText = $('#cart-total').text();
         const count = cartCount();
-        const phone = $phone.val().trim();
-        let address = $street.val().trim();
-        const apt = $('#delivery-apt').val().trim();
-        const floor = $('#delivery-floor').val().trim();
-        if (apt) address += ', apt. ' + apt;
-        if (floor) address += ', floor ' + floor;
+        const phone = $('#delivery-phone').val().trim();
+        const payment = getPaymentMethod();
+        let fulfillmentSummary = '';
 
-        showCheckoutMessage('alert-success', 'Request received!',
-            'Items: ' + count + ', total: ' + totalText + '. Delivery address: ' + address +
-            '. Our manager will call you at ' + phone + ' to confirm the order.');
+        if (isPickup) {
+            fulfillmentSummary = 'Pickup at Uly dala 41 (ready in ~30 min).';
+        } else {
+            let address = $('#delivery-street').val().trim();
+            const apt = $('#delivery-apt').val().trim();
+            const floor = $('#delivery-floor').val().trim();
+            if (apt) address += ', apt. ' + apt;
+            if (floor) address += ', floor ' + floor;
+            fulfillmentSummary = 'Delivery address: ' + address + '.';
+        }
+
+        showCheckoutMessage(
+            'alert-success',
+            'Order & Payment Confirmed!',
+            'Items: ' + count + ', total: ' + totalText + ' via ' + payment + '. ' +
+            fulfillmentSummary + ' Our manager will call you at ' + phone + ' to confirm.'
+        );
 
         cart = {};
         discountPct = 0;
-        $('#promo-input').val('').removeClass('is-valid is-invalid');
-        $('#promo-result').empty();
-        $.each($fields, function (i, $f) {
+        if ($('#promo-input').length) {
+            $('#promo-input').val('').removeClass('is-valid is-invalid');
+            $('#promo-result').empty();
+        }
+        $.each([$('#delivery-street'), $('#delivery-apt'), $('#delivery-floor'), $('#delivery-phone')], function (i, $f) {
             $f.val('');
             clearError($f, false);
         });
